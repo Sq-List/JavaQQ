@@ -2,10 +2,15 @@ package com.zust.server.controller;
 
 import com.google.gson.Gson;
 import com.zust.common.bean.DataFormat;
+import com.zust.common.bean.LoginBean;
+import com.zust.common.bean.User;
 import com.zust.server.UDP.ServerUDP;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
+import java.util.ArrayList;
 
 public class ServerController implements Runnable
 {
@@ -16,8 +21,42 @@ public class ServerController implements Runnable
 	public ServerController(InetAddress inetAddress, byte[] data)
 	{
 		this.senderAddress = inetAddress;
-		Gson gson = new Gson();
-		dataFormat = gson.fromJson(new String(data), DataFormat.class);
+
+		ByteArrayInputStream bais = null;
+		ObjectInputStream ois = null;
+		try
+		{
+			bais = new ByteArrayInputStream(data);
+			ois = new ObjectInputStream(bais);
+			dataFormat = (DataFormat) ois.readObject();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if (ois != null)
+				{
+					ois.close();
+				}
+
+				if (bais != null)
+				{
+					bais.close();
+				}
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void run()
@@ -61,7 +100,13 @@ public class ServerController implements Runnable
 
 		//TODO:数据库处理
 
-		DataFormat data = new DataFormat(0, senderUserId, DataFormat.LOGIN, "登陆成功", System.currentTimeMillis());
+		System.out.println(dataFormat.getData());
+		LoginBean login = (LoginBean) dataFormat.getData();
+		System.out.println(login.getType());
+
+		LoginBean loginBean = new LoginBean();
+		loginBean.setType(1);
+		DataFormat data = new DataFormat(0, senderUserId, DataFormat.LOGIN, loginBean, System.currentTimeMillis());
 		try
 		{
 			ServerUDP.sendUdpMsg(data);

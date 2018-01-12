@@ -5,7 +5,9 @@ import com.zust.client.controller.ClientController;
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.UdpMsg;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,7 +16,7 @@ import java.util.Set;
 
 public class ClientUDP
 {
-	private static final String serverIp = "172.16.54.182";
+	private static final String serverIp = "127.0.0.1";
 	private static final Map<Integer, UdpMsg> udpMsgMap = new HashMap<Integer, UdpMsg>();
 	private static int udpId = 1;
 	//接收端的DatagramSocket
@@ -35,10 +37,13 @@ public class ClientUDP
 	{
 		DatagramSocket dSender = new DatagramSocket();
 
-		//将对象转换成byte
-		Gson gson = new Gson();
-		String dataGson = gson.toJson(dataFormat);
-		UdpMsg udpMsg = new UdpMsg(udpId++, UdpMsg.REQUEST, dataFormat.getToId(), System.currentTimeMillis(), dataGson.getBytes());
+		//内存流（基类流）
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		//对象流（包装流 ）因为传输对象
+		ObjectOutputStream oos = new ObjectOutputStream(baos);
+		oos.writeObject(dataFormat);
+
+		UdpMsg udpMsg = new UdpMsg(udpId++, UdpMsg.REQUEST, dataFormat.getToId(), System.currentTimeMillis(), baos.toByteArray());
 		byte[] buffer = udpMsg.toByte();
 
 		//发送数据包到服务器
@@ -48,6 +53,16 @@ public class ClientUDP
 		//将数据包放入消息队列
 		udpMsgMap.put(udpMsg.getUdpId(), udpMsg);
 		System.out.println("发送端-已发送req:" + udpMsg.getUdpId() + "的请求");
+
+		if (oos != null)
+		{
+			oos.close();
+		}
+
+		if (baos != null)
+		{
+			baos.close();
+		}
 	}
 
 	//启动重传线程
@@ -159,8 +174,8 @@ public class ClientUDP
 
 					System.out.println("接收端-已发送resp:" + resp.getUdpId() + "应答");
 
-					//TODO 交给其他线程处理UI
-					new Thread(new ClientController(udpMsg.getData()));
+					//交给其他线程处理UI
+					new Thread(new ClientController(udpMsg.getData())).start();
 				}
 			}
 			catch (IOException e)

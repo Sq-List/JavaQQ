@@ -5,7 +5,9 @@ import com.zust.client.UDP.ClientUDP;
 import com.zust.client.view.Login;
 import com.zust.common.bean.DataFormat;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.SocketException;
 
@@ -15,8 +17,41 @@ public class ClientController implements Runnable
 
 	public ClientController(byte[] data)
 	{
-		Gson gson = new Gson();
-		dataFormat = gson.fromJson(new String(data), DataFormat.class);
+		ByteArrayInputStream bais = null;
+		ObjectInputStream ois = null;
+		try
+		{
+			bais = new ByteArrayInputStream(data);
+			ois = new ObjectInputStream(bais);
+			dataFormat = (DataFormat) ois.readObject();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if (ois != null)
+				{
+					ois.close();
+				}
+
+				if (bais != null)
+				{
+					bais.close();
+				}
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void run()
