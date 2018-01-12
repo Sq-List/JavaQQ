@@ -1,8 +1,13 @@
 package com.zust.client.view;
 
+import com.zust.client.UDP.ClientUDP;
+import com.zust.common.bean.DataFormat;
+import com.zust.common.bean.SearchUserRequestBean;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -50,15 +55,23 @@ public class Interface1 extends JFrame {
 
 		button1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				refreshList();
-//				listScroller.removeAll();
-//				listScroller.validate();
-//				listScroller.repaint();
+//				refreshList();
+				try {
+					DataFormat dataFormat = new DataFormat();
+					dataFormat.setToId(0);
+					dataFormat.setTime(System.currentTimeMillis());
+					dataFormat.setType(2);
+					SearchUserRequestBean searchUserRequestBean = new SearchUserRequestBean();
+					searchUserRequestBean.setInfo(textField.getText());
+					dataFormat.setData(searchUserRequestBean);
+					ClientUDP.sendUdpMsg(dataFormat);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 
 		jPanel.setLayout(null);
-//		jPanel.setSize(400, 570);
 		jPanel.setPreferredSize(new Dimension(400,100));
 		jPanel.add(label3);
 		jPanel.add(label4);
@@ -67,11 +80,6 @@ public class Interface1 extends JFrame {
 		jPanel.add(label6);
 		listScroller = new JScrollPane(jPanel);
 		listScroller.setBounds(0, 60, 500, 340);
-//		listScroller.add(label3);
-//		listScroller.add(label4);
-//		listScroller.add(label5);
-//		listScroller.add(label6);
-//		listScroller.add(button2);
 
 
 //		setBackground(Color.blue);
