@@ -1,5 +1,7 @@
 package com.zust.client.view;
 
+import com.zust.common.tool.PicturePath;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -27,7 +29,7 @@ public class CellRenderer extends JLabel implements ListCellRenderer {
             setBackground(list.getBackground());
             setForeground(list.getForeground());
         }
-        setIcon(new ImageIcon(getClass().getResource("image/1.png")));//设置图片
+        setIcon(new ImageIcon(PicturePath.getPicturePath("/image/1.png")));//设置图片
         setEnabled(list.isEnabled());
         setFont(list.getFont());
         setOpaque(true);
