@@ -3,8 +3,11 @@ package com.zust.client.controller;
 import com.google.gson.Gson;
 import com.zust.client.UDP.ClientUDP;
 import com.zust.client.view.Login;
+import com.zust.client.view.Main;
 import com.zust.common.bean.DataFormat;
+import com.zust.common.bean.LoginBean;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -55,20 +58,15 @@ public class ClientController implements Runnable
 
 	public void login()
 	{
-		try
+		LoginBean loginBean = (LoginBean) dataFormat.getData();
+		if (loginBean.getType() == 1)
 		{
-			new ClientUDP();
-
-			DataFormat dataFormat = new DataFormat(1, 0, DataFormat.LOGIN, new String[]{"你好"}, System.currentTimeMillis());
-			ClientUDP.sendUdpMsg(dataFormat);
+			Main main = new Main();
+			
 		}
-		catch (SocketException e)
+		else
 		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
+			JOptionPane.showConfirmDialog(null, "登录失败");
 		}
 	}
 }

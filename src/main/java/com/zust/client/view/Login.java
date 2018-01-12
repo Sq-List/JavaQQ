@@ -1,6 +1,8 @@
 package com.zust.client.view;
 
+import com.zust.client.UDP.ClientUDP;
 import com.zust.common.bean.DataFormat;
+import com.zust.common.bean.LoginBean;
 import com.zust.common.bean.User;
 import com.zust.common.tool.PicturePath;
 
@@ -8,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class Login extends JFrame {
 //    private static final long serialVersionUID = -6788045638380819221L;
@@ -47,15 +50,6 @@ public class Login extends JFrame {
         this.setLocationRelativeTo(null);
         //窗体显示
         this.setVisible(true);
-//        b1.addActionListener(new ActionListener() {
-//
-//            public void actionPerformed(ActionEvent e) {
-//                String name = ulName.getText();
-//                String psw = new String(ulPasswd.getPassword());
-//                System.out.println("用户名:"+name+"密码"+psw);
-//            }
-//
-//        });
     }
     /**
      * 窗体组件初始化
@@ -112,12 +106,25 @@ public class Login extends JFrame {
                 if("登录".equals(cmd)){
                     String username = ulName.getText();
                     String psw = new String(ulPasswd.getPassword());
+
                     User user = new User();
                     user.setUserName(username);
                     user.setPassword(psw);
 
+                    LoginBean loginBean = new LoginBean();
+                    loginBean.setLoginUser(user);
+                    loginBean.setType(0);
+
                     DataFormat dataFormat = new DataFormat();
                     dataFormat.setType(DataFormat.LOGIN);
+                    dataFormat.setData(loginBean);
+
+                    try {
+                        ClientUDP.sendUdpMsg(dataFormat);
+                        new ClientUDP();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
 
                     if(username.equals("123456") && psw.equals("123456")){
                         JOptionPane.showConfirmDialog(null, "登录成功");
