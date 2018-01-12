@@ -1,9 +1,13 @@
 package com.zust.client.view;
 
+import com.zust.common.bean.DataFormat;
+import com.zust.common.bean.User;
 import com.zust.common.tool.PicturePath;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Login extends JFrame {
 //    private static final long serialVersionUID = -6788045638380819221L;
@@ -35,7 +39,7 @@ public class Login extends JFrame {
         this.setLayout(null);
         this.setBounds(0, 0, 400, 320);
         //设置窗体的图标
-        Image img0 = new ImageIcon(PicturePath.getPicturePath("/image/logo.png")).getImage();
+        Image img0 = new ImageIcon(PicturePath.getPicturePath("/image/logo1.jpg")).getImage();
         this.setIconImage(img0);
         //窗体大小不能改变
         this.setResizable(false);
@@ -43,6 +47,15 @@ public class Login extends JFrame {
         this.setLocationRelativeTo(null);
         //窗体显示
         this.setVisible(true);
+//        b1.addActionListener(new ActionListener() {
+//
+//            public void actionPerformed(ActionEvent e) {
+//                String name = ulName.getText();
+//                String psw = new String(ulPasswd.getPassword());
+//                System.out.println("用户名:"+name+"密码"+psw);
+//            }
+//
+//        });
     }
     /**
      * 窗体组件初始化
@@ -64,7 +77,7 @@ public class Login extends JFrame {
 
         //qq头像设定
         profilePic = new JLabel();
-        ImageIcon img2 = new ImageIcon(PicturePath.getPicturePath("/image/logo.jpg"));
+        ImageIcon img2 = new ImageIcon(PicturePath.getPicturePath("/image/logo1.jpg"));
         profilePic.setBounds(150, 10, 100, 100);
         img2.setImage(img2.getImage().getScaledInstance(100,100,Image.SCALE_DEFAULT));
         profilePic.setIcon(img2);
@@ -92,21 +105,28 @@ public class Login extends JFrame {
         b1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         b1.setBounds(170, 230, 60, 20);
 //        给按钮添加
-//        b1.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                String cmd = e.getActionCommand();
-//                if("登录".equals(cmd)){
-//                    String username = ulName.getText();
-//                    String userpassword = ulPasswd.getText();
-//                    if(username.equals("tskk") && userpassword.equals("123456")){
-//                        JOptionPane.showConfirmDialog(null, "登录成功");
-//                    }else{
-//                        JOptionPane.showConfirmDialog(null, "登录失败");
-//                    }
-//                }
-//            }
-//        });
+        b1.addActionListener(new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                String cmd = e.getActionCommand();
+                if("登录".equals(cmd)){
+                    String username = ulName.getText();
+                    String psw = new String(ulPasswd.getPassword());
+                    User user = new User();
+                    user.setUserName(username);
+                    user.setPassword(psw);
+
+                    DataFormat dataFormat = new DataFormat();
+                    dataFormat.setType(DataFormat.LOGIN);
+
+                    if(username.equals("123456") && psw.equals("123456")){
+                        JOptionPane.showConfirmDialog(null, "登录成功");
+                    }else{
+                        JOptionPane.showConfirmDialog(null, "登录失败");
+                    }
+                }
+            }
+        });
         //注册
         reg = new JLabel("未有账号？点击注册");
         reg.setFont(font);
@@ -127,5 +147,14 @@ public class Login extends JFrame {
     }
     public static void main(String[] args) {
         new Login();
+//        final String name = ulName.getText();
+//        final String psw = new String(ulPasswd.getPassword());
+//        b1.addActionListener(new ActionListener() {
+//
+//            public void actionPerformed(ActionEvent e) {
+//                System.out.println("用户名:"+name+"密码"+psw);
+//            }
+//
+//        });
     }
 }
