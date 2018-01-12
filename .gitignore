@@ -1,0 +1,8 @@
+*.iml
+.idea/
+target/
+
+# Windows:
+Thumbs.db
+ehthumbs.db
+Desktop.ini
