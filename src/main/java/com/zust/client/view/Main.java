@@ -99,32 +99,36 @@ public class Main extends JFrame
 	}
 
 	public void resetList(){
-		remove(listScroller);
-		listModel = new DefaultListModel();
-		String[] data = { "好友1", "好友2", "好友3", "好友4", "好友5"};
-		for(int i=0;i<data.length;i++){
-			listModel.add(i, data[i]);
-		}
-		jList = new JList(listModel);
-		jList.setCellRenderer(new CellRenderer());
-		jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		jList.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				JList theList = (JList) e.getSource();
-				if (e.getClickCount() == 2) {
-					int index = theList.locationToIndex(e.getPoint());
-					if (index >= 0) {
-						Object o = theList.getModel().getElementAt(index);
-						System.out.println(o.toString());
-					}
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				remove(listScroller);
+				listModel = new DefaultListModel();
+				String[] data = { "好友1", "好友2", "好友3", "好友4", "好友5"};
+				for(int i=0;i<data.length;i++){
+					listModel.add(i, data[i]);
 				}
+				jList = new JList(listModel);
+				jList.setCellRenderer(new CellRenderer());
+				jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				jList.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						JList theList = (JList) e.getSource();
+						if (e.getClickCount() == 2) {
+							int index = theList.locationToIndex(e.getPoint());
+							if (index >= 0) {
+								Object o = theList.getModel().getElementAt(index);
+								System.out.println(o.toString());
+							}
+						}
+					}
+				});
+				listScroller = new JScrollPane(jList);
+				listScroller.setBounds(0, 200, 400, 632);
+				add(listScroller);
+				listScroller.validate();
 			}
 		});
-		listScroller = new JScrollPane(jList);
-		listScroller.setBounds(0, 200, 400, 632);
-		add(listScroller);
-		listScroller.validate();
 	}
 
 }

@@ -6,6 +6,15 @@ public class User
 	private String userName;
 	private String password;
 	private String avatarSrc;
+	private boolean status;
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 
 	public Integer getId()
 	{
