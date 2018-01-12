@@ -139,7 +139,7 @@ public class ServerUDP
 				{
 					if (udpMsgMap.get(udpMsg.getUdpId()) != null)
 					{
-						System.out.println("接收端已接收req:" + udpMsg.getUdpId() + "的确认");
+						System.out.println("接收端-已接收req:" + udpMsg.getUdpId() + "的确认");
 						udpMsgMap.remove(udpMsg.getUdpId());
 					}
 				}

@@ -1,6 +1,10 @@
 *.iml
 .idea/
 target/
+bin/
+.classpath
+.project
+.settings
 
 # Windows:
 Thumbs.db
