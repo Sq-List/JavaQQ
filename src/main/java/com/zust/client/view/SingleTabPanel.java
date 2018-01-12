@@ -10,10 +10,9 @@ import java.io.OutputStream;
 //单个tab样式：
 class SingleTabPanel extends JPanel {
 	private JLabel userInfo;
-	private JLabel currentMsgNum;
 	private CloseButton closebutton;
 	private final JTabbedPane tabbedPane;
-
+	private JLabel currentMsgNum;
 	private  SingleTabPanel singleTabPanel;
 	String userName;
 	int messageNum=0;
@@ -77,7 +76,7 @@ class SingleTabPanel extends JPanel {
 
 	};
 	//    改变当前信息数量：
-	public void changeMsgNum(String type){
+	public  void changeMsgNum(String type){
 		if(type.equals("add")){
 			messageNum++;
 			currentMsgNum.setText(String.valueOf(messageNum));

@@ -1,10 +1,16 @@
 package com.zust.client.controller;
 
 import com.google.gson.Gson;
+import com.zust.client.UDP.ClientUDP;
+import com.zust.client.view.ChatPane;
+import com.zust.client.view.Login;
 import com.zust.common.bean.DataFormat;
+import com.zust.common.bean.User;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.SocketException;
 
 public class ClientController implements Runnable
 {
@@ -52,9 +58,18 @@ public class ClientController implements Runnable
 
 	public void login()
 	{
-		String data = (String) dataFormat.getData( );
+
 	}
-	public void receiveMsg(){
-		String message=(String) dataFormat.getData();
+	public void receiveMessage(){
+//		getChatPanel.receiveMsg(dataFormat);
+	}
+	public void changeStatus(){
+		User user= (User) dataFormat.getData();
+		if(user.isStatus()){
+//			getChatPanel.addOnlineFriend(user);
+		}else{
+//			getChatPanel.delteOfflineFriend(user.getId());
+		}
+
 	}
 }

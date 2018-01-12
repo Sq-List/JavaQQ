@@ -23,21 +23,20 @@ import static java.lang.System.*;
 //右边聊天面板：
 class ChatPanel extends JPanel {
     String userName;
+    String toUserName;
     Integer fromId;
     Integer toId;
     JTabbedPane tabbedPane;
     JTextArea showPanel;
     JTextArea editTextArea;
-    DatagramSocket receiveSocket,sendSocket;
-    DatagramPacket receivePacket,sendPacket;
     //创建一个JPanel，并为构造函数初始false，表示不适用双缓冲
-    public ChatPanel(String userName,JTabbedPane tabbedPane,Integer fromId,Integer toId){
+    public ChatPanel(String userName,String toUserName,JTabbedPane tabbedPane,Integer fromId,Integer toId){
         this.userName=userName;
+        this.toUserName=toUserName;
         this.tabbedPane=tabbedPane;
         this.fromId=fromId;
         this.toId=toId;
         createChatPanel();
-        receiveMessage();
     }
 
     public void createChatPanel() {
@@ -45,6 +44,7 @@ class ChatPanel extends JPanel {
         showPanel = new JTextArea();
         JScrollPane scroll = new JScrollPane(showPanel);
         showPanel.setEditable(false);
+        showPanel.setForeground(Color.BLUE);
 //        showPanel.setBorder(BorderFactory.createLineBorder(Color.red));
         showPanel.setLineWrap(true);        //激活自动换行功能
         showPanel.setWrapStyleWord(true);            // 激活断行不断字功能
@@ -87,44 +87,12 @@ class ChatPanel extends JPanel {
         add(jp1);
     }
 
-
-    public void receiveMessage()
-    {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String date = df.format(new Date());
-        showPanel.append("服务器"+date+"：\n");
-        showPanel.append(message);
-        try
-        {
-            receiveSocket = new DatagramSocket(2222);
-//建立端口号为 3001的DatagramSocket
-            while(true)
-            {
-                byte[] buf = new byte[500];
-                receivePacket = new DatagramPacket(buf,buf.length);
-//建立DatagramPacket对象
-                receiveSocket.receive(receivePacket);
-//接收数据抱包
-                ByteArrayInputStream bin =
-                        new ByteArrayInputStream(receivePacket.getData());
-                BufferedReader reader =new BufferedReader(
-                        new InputStreamReader(bin));
-                showPanel.append("服务器：" +reader.readLine()+"\n");
-            }
-        }
-        catch(Exception e)
-        {
-            showPanel.setText("");
-            showPanel.append(e+"\n");
-        }
-    }
     public void sendMessage(Integer fromId,Integer toId)
     {
         try
         {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date = df.format(new Date());
-            showPanel.setForeground(Color.BLUE);
             showPanel.append(userName+"  "+date+":\r\n");
             showPanel.append("          "+editTextArea.getText()+"\r\n");
             String message=editTextArea.getText();
@@ -139,5 +107,15 @@ class ChatPanel extends JPanel {
             showPanel.setText("");
             showPanel.append(err+"\n");
         }
+    }
+     public  void showMsg(String msg){
+        //        判断是否有消息：
+        if(msg!=null){
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String date = df.format(new Date());
+            showPanel.append(toUserName+" "+date+"：\n");
+            showPanel.append("        "+msg);
+        }
+
     }
 }

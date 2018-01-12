@@ -1,6 +1,8 @@
 package com.zust.client.view;
 
+import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.User;
+import com.zust.common.tool.PicturePath;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,39 +13,29 @@ public class ChatPane {
 	Integer fromId;
 	List<User> friends;
 	JTabbedPane tp;
-	public ChatPane(List<User> friends,Integer fromId){
-		this.friends=friends;
-		createAndShowGUI();
+	String userName;
+	User firstFriend;
+	public ChatPane(User firstfriend,Integer fromId,String userName){
+		this.firstFriend=firstFriend;
 		this.fromId=fromId;
+		this.userName=userName;
+		createAndShowGUI();
 	}
+
 	public  void createAndShowGUI(){
 		JPanel myTabbedPane=new JPanel();
 		myTabbedPane.setLayout(new GridLayout(1, 1));
-//创建JTabbedPane
+		//创建JTabbedPane
 		tp = new JTabbedPane();
-		for(int i=0;i<friends.size();i++){
-			User friend=friends.get(i);
-			//创建标签显示的图标
-			ImageIcon myImageIcon = createImageIcon(friend.getAvatarSrc());
-			//创建一个标签下的聊天panel
-			ChatPanel chatPanel= new ChatPanel(friend.getUserName(),tp,fromId,friend.getId());
-			//指定标签名:userName，标签图标，显示窗口面板panel，和提示信息tip
-			tp.addTab(friend.getUserName(),myImageIcon,chatPanel);
-			JPanel singleTabPanel=new SingleTabPanel(friend.getUserName(),myImageIcon,tp,i);
-			tp.setTabComponentAt(i, singleTabPanel);
-			singleTabPanel.setName(friend.getId().toString());
-		}
-		//设置合适的显示尺寸，这个是必须的，因为如果所有的标签都；不指定适合的显示尺寸，系统无法判断初始显示尺寸大小；默认是使用最小化，并且对一个标签设计即可
+		addOnlineFriend(firstFriend);
+
 		tp.setPreferredSize(new Dimension(500,500));
-		//将tabbedPanel添加到Jpanel中
 		myTabbedPane.add(tp);
-		//设置窗口过小时，标签的显示策略
 		tp.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-		//设置标签停放的位置，这里设置为左侧停放
 		tp.setTabPlacement(JTabbedPane.LEFT);
 // 往窗口添加myTabbedPane
 		JFrame frame = new JFrame("聊天窗口");
-		ImageIcon logo=new ImageIcon("src/image/logo.jpg");
+		ImageIcon logo=new ImageIcon(PicturePath.getPicturePath("/image/logo.jpg"));
 		logo.setImage(logo.getImage().getScaledInstance(25, 30,
 				Image.SCALE_DEFAULT));
 		frame.setIconImage(logo.getImage());
@@ -64,8 +56,7 @@ public class ChatPane {
 		else{
 			ImageIcon icon=new ImageIcon(picSrc);
 			//设置icon的大小
-			icon.setImage(icon.getImage().getScaledInstance(50, 50,
-					Image.SCALE_DEFAULT));
+			icon.setImage(icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 			return icon;
 		}
 
@@ -82,17 +73,41 @@ public class ChatPane {
 		}
 	}
 	//    好友上线：
-	public void addOnlineFriend(Map<String,Object> map){
-		Integer id=(Integer) map.get("addId");
-		String avatarSrc=(String) map.get("userAvatarSrc");
-		String userName=(String) map.get("userName");
+	public void addOnlineFriend(User friend){
+		Integer id=friend.getId();
+		String avatarSrc=friend.getAvatarSrc();
+		String toUserName=friend.getUserName();
 		ImageIcon myImageIcon = createImageIcon(avatarSrc);
-		ChatPanel chatPanel= new ChatPanel(userName,tp,fromId,id);
-		tp.addTab(userName,myImageIcon,chatPanel);
-		JPanel singleTabPanel=new SingleTabPanel(userName,myImageIcon,tp,tp.getTabCount()-1);
-		tp.setTabComponentAt(tp.getTabCount()-1, singleTabPanel);
-		singleTabPanel.setName(id.toString());
-		System.out.println("userId="+id+" is online!!!");
+		ChatPanel chatPanel= new ChatPanel(userName,toUserName,tp,fromId,id);
+		tp.addTab(toUserName,myImageIcon,chatPanel);
+		if(tp.getTabCount()==0){
+			JPanel singleTabPanel=new SingleTabPanel(toUserName,myImageIcon,tp,0);
+			tp.setTabComponentAt(0, singleTabPanel);
+			singleTabPanel.setName(id.toString());
+		}
+		else{
+			JPanel singleTabPanel=new SingleTabPanel(toUserName,myImageIcon,tp,tp.getTabCount()-1);
+			tp.setTabComponentAt(tp.getTabCount()-1, singleTabPanel);
+			singleTabPanel.setName(id.toString());
+			System.out.println("userId="+id+" is online!!!");
+		}
+
+	}
+	public void receiveMsg(DataFormat dataFormat)
+	{
+
+		for(int i=0;i<tp.getTabCount();i++){
+			if(String.valueOf(dataFormat.getToId()).equals(tp.getTabComponentAt(i).getName())){
+				//聊天面板添加聊天信息：
+				ChatPanel chatPanel=(ChatPanel)tp.getComponentAt(i);
+				String msg=dataFormat.getData().toString();
+				chatPanel.showMsg(msg);
+				SingleTabPanel singleTabPanel=(SingleTabPanel)tp.getTabComponentAt(i);
+				singleTabPanel.changeMsgNum("add");
+			}
+		}
+
+
 	}
 }
 
