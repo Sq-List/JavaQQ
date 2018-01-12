@@ -80,7 +80,7 @@ public class ServerUDP
 			Integer key=it.next();
 			UdpMsg msg = udpMsgMap.get(key);
 
-			System.out.println("循环中， msg信息：" + msg.getUdpId() + "已发送：" + msg.getCount());
+//			System.out.println("循环中， msg信息：" + msg.getUdpId() + "已发送：" + msg.getCount());
 			if(msg.getCount() >= 3)
 			{
 				System.out.println("***发送端---检测到丢失的消息" + msg.getUdpId());
@@ -154,6 +154,7 @@ public class ServerUDP
 					DatagramSocket dSender = new DatagramSocket();
 					//获取发送方的InetAddress
 					InetAddress inetAddress = recvPacket.getAddress();
+					System.out.println("接收端-resp:" + resp.getUdpId() + "来自" + inetAddress.getHostAddress());
 					DatagramPacket dp = new DatagramPacket(data, data.length, inetAddress, 2223);
 					dSender.send(dp);
 

@@ -12,7 +12,7 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
-public class Interface1 extends JFrame {
+public class SearchPanel extends JFrame {
 
 	JLabel label1,label2,label3,label4,label5,label6;
 	JButton button1,button2;
@@ -20,7 +20,7 @@ public class Interface1 extends JFrame {
 	JPanel jPanel,jPanel1,jPanel2;
 	JScrollPane listScroller;
 	
-	public Interface1(){
+	public SearchPanel(){
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = 500;
 		int height = 400;
