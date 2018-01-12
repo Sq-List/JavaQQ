@@ -82,7 +82,6 @@ public class ClientUDP
 			Integer key=it.next();
 			UdpMsg msg = udpMsgMap.get(key);
 
-			System.out.println("循环中， msg信息：" + msg.getUdpId() + "已发送：" + msg.getCount());
 			if(msg.getCount() >= 3)
 			{
 				System.out.println("***发送端---检测到丢失的消息"+msg.getUdpId());
@@ -141,7 +140,7 @@ public class ClientUDP
 				{
 					if (udpMsgMap.get(udpMsg.getUdpId()) != null)
 					{
-						System.out.println("接收端已接收req:" + udpMsg.getUdpId() + "的确认");
+						System.out.println("接收端-已接收req:" + udpMsg.getUdpId() + "的确认");
 						udpMsgMap.remove(udpMsg.getUdpId());
 					}
 				}
