@@ -1,8 +1,6 @@
 package com.zust.client.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -90,38 +88,42 @@ public class SearchPanel extends JFrame {
 	}
 
 	public void refreshList(){
-		remove(listScroller);
-		JPanel jPaneltest = new JPanel();
-		jPaneltest.setLayout(null);
-		jPaneltest.setPreferredSize(new Dimension(400,370));
-		for(int i = 0;i< 5;i++){
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				remove(listScroller);
+				JPanel jPaneltest = new JPanel();
+				jPaneltest.setLayout(null);
+				jPaneltest.setPreferredSize(new Dimension(400,370));
+				for(int i = 0;i< 5;i++){
 //			jPaneltest.setPreferredSize(new Dimension(500, 70*(i+1)));
-			JLabel jLabela, jLabelb, jLabelc, jLabeld;
-			JButton jButton;
-			jLabela = new JLabel();
-			jLabelb = new JLabel("hahaha");
-			jLabelc = new JLabel("123456");
-			jLabeld = new JLabel();
-			jButton = new JButton("添加");
-			jLabela.setBounds(40, 17+i*70, 40, 40);
-			jLabela.setIcon(new ImageIcon(getClass().getResource("../../../image/1.png")));
-			jLabelb.setBounds(130, 23+i*70, 100, 30);
-			jLabelc.setBounds(230, 23+i*70, 100, 30);
-			jButton.setBounds(350, 25+i*70, 60, 26);
-			jLabeld.setBounds(0,70+i*70,500,1);
-			jLabeld.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.lightGray), BorderFactory.createEmptyBorder(1,1,1,1)));
-			jPaneltest.add(jLabela);
-			jPaneltest.add(jLabelb);
-			jPaneltest.add(jLabelc);
-			jPaneltest.add(jButton);
-			jPaneltest.add(jLabeld);
-		}
-		listScroller = new JScrollPane(jPaneltest);
-		listScroller.setBounds(0, 60, 500, 340);
-		add(listScroller);
+					JLabel jLabela, jLabelb, jLabelc, jLabeld;
+					JButton jButton;
+					jLabela = new JLabel();
+					jLabelb = new JLabel("hahaha");
+					jLabelc = new JLabel("123456");
+					jLabeld = new JLabel();
+					jButton = new JButton("添加");
+					jLabela.setBounds(40, 17+i*70, 40, 40);
+					jLabela.setIcon(new ImageIcon(getClass().getResource("../../../image/1.png")));
+					jLabelb.setBounds(130, 23+i*70, 100, 30);
+					jLabelc.setBounds(230, 23+i*70, 100, 30);
+					jButton.setBounds(350, 25+i*70, 60, 26);
+					jLabeld.setBounds(0,70+i*70,500,1);
+					jLabeld.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.lightGray), BorderFactory.createEmptyBorder(1,1,1,1)));
+					jPaneltest.add(jLabela);
+					jPaneltest.add(jLabelb);
+					jPaneltest.add(jLabelc);
+					jPaneltest.add(jButton);
+					jPaneltest.add(jLabeld);
+				}
+				listScroller = new JScrollPane(jPaneltest);
+				listScroller.setBounds(0, 60, 500, 340);
+				add(listScroller);
 //		listScroller.setVerticalScrollBar(new JScrollBar());
 //		listScroller.repaint();
-		validate();
+				validate();
+			}
+		});
 	}
 
 }

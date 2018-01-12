@@ -1,10 +1,13 @@
 package com.zust.client.controller;
 
 import com.google.gson.Gson;
+import com.zust.client.UDP.ClientUDP;
+import com.zust.client.view.Login;
 import com.zust.common.bean.DataFormat;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.SocketException;
 
 public class ClientController implements Runnable
 {
@@ -52,6 +55,20 @@ public class ClientController implements Runnable
 
 	public void login()
 	{
+		try
+		{
+			new ClientUDP();
 
+			DataFormat dataFormat = new DataFormat(1, 0, DataFormat.LOGIN, new String[]{"你好"}, System.currentTimeMillis());
+			ClientUDP.sendUdpMsg(dataFormat);
+		}
+		catch (SocketException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
