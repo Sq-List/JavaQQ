@@ -52,6 +52,9 @@ public class ClientController implements Runnable
 
 	public void login()
 	{
-
+		String data = (String) dataFormat.getData( );
+	}
+	public void receiveMsg(){
+		String message=(String) dataFormat.getData();
 	}
 }
