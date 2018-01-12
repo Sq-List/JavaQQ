@@ -25,7 +25,7 @@ public class DataFormat
 	private int type;
 	//请求的数据
 	private Object data;
-	//请求的事件
+	//请求的时间
 	private long time;
 
 	public DataFormat()

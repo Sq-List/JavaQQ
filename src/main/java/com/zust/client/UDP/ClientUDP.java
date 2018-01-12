@@ -30,6 +30,7 @@ public class ClientUDP
 		startResendUpdMsg();
 	}
 
+	//发送方法
 	public static void sendUdpMsg(DataFormat dataFormat) throws IOException
 	{
 		DatagramSocket dSender = new DatagramSocket();
