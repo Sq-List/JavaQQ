@@ -2,6 +2,7 @@ package com.zust.client.controller;
 
 import com.google.gson.Gson;
 import com.zust.client.UDP.ClientUDP;
+import com.zust.client.manager.ManagerPanel;
 import com.zust.client.view.Login;
 import com.zust.client.view.Main;
 import com.zust.common.bean.DataFormat;
@@ -20,6 +21,7 @@ public class ClientController implements Runnable
 	{
 		Gson gson = new Gson();
 		dataFormat = gson.fromJson(new String(data), DataFormat.class);
+		System.out.println("构造器" + dataFormat.getType());
 	}
 
 	public void run()
@@ -58,11 +60,15 @@ public class ClientController implements Runnable
 
 	public void login()
 	{
+		System.out.println("123");
+		System.out.println(dataFormat.getData());
 		LoginBean loginBean = (LoginBean) dataFormat.getData();
 		if (loginBean.getType() == 1)
 		{
 			Main main = new Main();
-			
+			ManagerPanel.add("mainPanel", main);
+			Login login = (Login) ManagerPanel.get("loginPanel");
+
 		}
 		else
 		{

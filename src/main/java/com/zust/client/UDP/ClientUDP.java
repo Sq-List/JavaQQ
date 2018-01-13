@@ -160,7 +160,7 @@ public class ClientUDP
 					System.out.println("接收端-已发送resp:" + resp.getUdpId() + "应答");
 
 					//TODO 交给其他线程处理UI
-					new Thread(new ClientController(udpMsg.getData()));
+					new Thread(new ClientController(udpMsg.getData())).start();
 				}
 			}
 			catch (IOException e)

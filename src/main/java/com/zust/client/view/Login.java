@@ -1,6 +1,7 @@
 package com.zust.client.view;
 
 import com.zust.client.UDP.ClientUDP;
+import com.zust.client.manager.ManagerPanel;
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.LoginBean;
 import com.zust.common.bean.User;
@@ -120,16 +121,10 @@ public class Login extends JFrame {
                     dataFormat.setData(loginBean);
 
                     try {
-                        ClientUDP.sendUdpMsg(dataFormat);
                         new ClientUDP();
+                        ClientUDP.sendUdpMsg(dataFormat);
                     } catch (IOException e1) {
                         e1.printStackTrace();
-                    }
-
-                    if(username.equals("123456") && psw.equals("123456")){
-                        JOptionPane.showConfirmDialog(null, "登录成功");
-                    }else{
-                        JOptionPane.showConfirmDialog(null, "登录失败");
                     }
                 }
             }
@@ -151,9 +146,19 @@ public class Login extends JFrame {
         ground.add(b1);
         ground.add(reg);
         container.add(ground);
+
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
+
+    public void closePanel()
+    {
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+    }
+
     public static void main(String[] args) {
-        new Login();
+        Login login = new Login();
+        ManagerPanel.add("loginPanel", login);
 //        final String name = ulName.getText();
 //        final String psw = new String(ulPasswd.getPassword());
 //        b1.addActionListener(new ActionListener() {
