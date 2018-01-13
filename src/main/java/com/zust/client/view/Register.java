@@ -1,7 +1,11 @@
 package com.zust.client.view;
 
+import com.zust.client.manager.ManagerPanel;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Register extends JFrame{
 
@@ -101,28 +105,22 @@ public class Register extends JFrame{
         b1.setFont(font);
         b1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         b1.setBounds(170, 250, 60, 20);
-//        给按钮添加
-//        b1.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                String cmd = e.getActionCommand();
-//                if("登录".equals(cmd)){
-//                    String username = ulName.getText();
-//                    String userpassword = ulPasswd.getText();
-//                    if(username.equals("tskk") && userpassword.equals("123456")){
-//                        JOptionPane.showConfirmDialog(null, "登录成功");
-//                    }else{
-//                        JOptionPane.showConfirmDialog(null, "登录失败");
-//                    }
-//                }
-//            }
-//        });
+
         //登录
         loginMsg = new JLabel("已有账号？前往登录");
         loginMsg.setFont(font);
         loginMsg.setForeground(Color.WHITE);
         loginMsg.setBounds(20,270,200,20);
         loginMsg.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        loginMsg.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Login login = new Login();
+                //添加登陆面板
+                ManagerPanel.add("loginPanel", login);
+                login.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            }
+        });
 
         //所有组件用容器装载
         ground.add(smallCon);
@@ -138,6 +136,7 @@ public class Register extends JFrame{
         container.add(ground);
     }
     public static void main(String[] args) {
-        new Register();
+        Register register = new Register();
+        ManagerPanel.add("registerPanel",register);
     }
 }

@@ -1,13 +1,16 @@
 package com.zust.client.view;
 
+import com.zust.client.UDP.ClientUDP;
+import com.zust.client.manager.ManagerPanel;
 import com.zust.common.bean.DataFormat;
+import com.zust.common.bean.LoginBean;
 import com.zust.common.bean.User;
 import com.zust.common.tool.PicturePath;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.io.IOException;
 
 public class Login extends JFrame {
 //    private static final long serialVersionUID = -6788045638380819221L;
@@ -47,15 +50,6 @@ public class Login extends JFrame {
         this.setLocationRelativeTo(null);
         //窗体显示
         this.setVisible(true);
-//        b1.addActionListener(new ActionListener() {
-//
-//            public void actionPerformed(ActionEvent e) {
-//                String name = ulName.getText();
-//                String psw = new String(ulPasswd.getPassword());
-//                System.out.println("用户名:"+name+"密码"+psw);
-//            }
-//
-//        });
     }
     /**
      * 窗体组件初始化
@@ -104,7 +98,7 @@ public class Login extends JFrame {
         b1.setFont(font);
         b1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         b1.setBounds(170, 230, 60, 20);
-//        给按钮添加
+        // 给按钮添加事件
         b1.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -112,18 +106,26 @@ public class Login extends JFrame {
                 if("登录".equals(cmd)){
                     String username = ulName.getText();
                     String psw = new String(ulPasswd.getPassword());
+
                     User user = new User();
                     user.setUserName(username);
                     user.setPassword(psw);
 
+                    LoginBean loginBean = new LoginBean();
+                    loginBean.setLoginUser(user);
+                    loginBean.setType(0);
+
                     DataFormat dataFormat = new DataFormat();
                     dataFormat.setType(DataFormat.LOGIN);
+                    dataFormat.setData(loginBean);
 
-                    if(username.equals("123456") && psw.equals("123456")){
-                        JOptionPane.showConfirmDialog(null, "登录成功");
-                    }else{
-                        JOptionPane.showConfirmDialog(null, "登录失败");
+                    try {
+                        new ClientUDP();
+                        ClientUDP.sendUdpMsg(dataFormat);
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
                     }
+
                 }
             }
         });
@@ -133,6 +135,16 @@ public class Login extends JFrame {
         reg.setForeground(Color.WHITE);
         reg.setBounds(20,270,200,20);
         reg.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        //生成注册面板
+        reg.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Register register = new Register();
+                ManagerPanel.add("registerPanel",register);
+                register.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//                register.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+            }
+        });
 
         //所有组件用容器装载
         ground.add(smallCon);
@@ -145,16 +157,11 @@ public class Login extends JFrame {
         ground.add(reg);
         container.add(ground);
     }
+
+
     public static void main(String[] args) {
-        new Login();
-//        final String name = ulName.getText();
-//        final String psw = new String(ulPasswd.getPassword());
-//        b1.addActionListener(new ActionListener() {
-//
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("用户名:"+name+"密码"+psw);
-//            }
-//
-//        });
+        Login login = new Login();
+        //添加登陆面板
+        ManagerPanel.add("loginPanel", login);
     }
 }

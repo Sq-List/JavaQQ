@@ -41,7 +41,6 @@ public class ServerController implements Runnable
 			bais = new ByteArrayInputStream(data);
 			ois = new ObjectInputStream(bais);
 			dataFormat = (DataFormat) ois.readObject();
-			System.out.println(dataFormat);
 		}
 		catch (IOException e)
 		{

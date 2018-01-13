@@ -1,11 +1,22 @@
 package com.zust.client.controller;
 
 import com.zust.client.UDP.ClientUDP;
+import com.zust.client.manager.ManagerInfo;
+import com.zust.client.manager.ManagerPanel;
 import com.zust.client.view.ChatPane;
-import com.zust.client.view.Login;
-import com.zust.common.bean.DataFormat;
-import com.zust.common.bean.User;
 
+import com.zust.client.view.Login;
+import com.zust.client.view.Main;
+import com.zust.common.bean.ChatBean;
+import com.zust.common.bean.DataFormat;
+
+import com.zust.common.bean.LoginBean;
+import com.zust.common.bean.User;
+import com.zust.common.bean.UserStateBean;
+
+import java.awt.*;
+
+import javax.swing.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -73,6 +84,7 @@ public class ClientController implements Runnable
 
 			case DataFormat.MESSAGE:
 				//TODO: 消息请求，最好写成方法
+				receiveMessage();
 				break;
 
 			case DataFormat.LOGIN:
@@ -85,23 +97,49 @@ public class ClientController implements Runnable
 
 			case DataFormat.USER_STATE:
 				//TODO: 其他用户上下线请求，最好写成方法
+				changeStatus();
 				break;
 		}
 	}
 
+	//登录方法
 	public void login()
 	{
+		LoginBean loginBean = (LoginBean) dataFormat.getData();
+		if (loginBean.getType() == 1)
+		{
+			Main main = new Main();
+			//添加好友列表面板
+			ManagerPanel.add("mainPanel", main);
 
+			Login login = (Login) ManagerPanel.get("loginPanel");
+			ManagerPanel.delete("loginPanel");
+
+			ManagerInfo.setUser(loginBean.getLoginUser());
+			ManagerInfo.setUserMap(loginBean.getFriendMap());
+
+			//关闭登陆面板
+			login.dispose();
+		}
+		else
+		{
+			JOptionPane.showConfirmDialog(null, "登录失败");
+
+		}
 	}
 	public void receiveMessage(){
-//		getChatPanel.receiveMsg(dataFormat);
+		ChatBean chatBean= (ChatBean) dataFormat.getData();
+		ChatPane chatPanel=(ChatPane)ManagerPanel.get("chatPanel");
+		chatPanel.receiveMsg(chatBean.getMessage(),dataFormat.getToId());
 	}
 	public void changeStatus(){
-		User user= (User) dataFormat.getData();
-		if(user.getStatus()){
-//			getChatPanel.addOnlineFriend(user);
+
+		UserStateBean userStateBean= (UserStateBean) dataFormat.getData();
+		ChatPane chatPanel=(ChatPane)ManagerPanel.get("chatPanel");
+		if(userStateBean.getUser().getStatus()){
+			chatPanel.addOnlineFriend(userStateBean.getUser());
 		}else{
-//			getChatPanel.delteOfflineFriend(user.getId());
+			chatPanel.delteOfflineFriend(userStateBean.getUser().getId());
 		}
 
 	}
