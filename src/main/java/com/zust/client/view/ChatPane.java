@@ -1,5 +1,6 @@
 package com.zust.client.view;
 
+import com.zust.client.manager.ManagerPanel;
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.User;
 import com.zust.common.tool.PicturePath;
@@ -11,31 +12,32 @@ import java.util.Map;
 
 public class ChatPane {
 	Integer fromId;
-	List<User> friends;
 	JTabbedPane tp;
 	String userName;
-	User firstFriend;
+	User firstfriend;
+	static JFrame frame;
+	JPanel myTabbedPane;
 	public ChatPane(User firstfriend,Integer fromId,String userName){
-		this.firstFriend=firstFriend;
+		this.firstfriend=firstfriend;
 		this.fromId=fromId;
 		this.userName=userName;
 		createAndShowGUI();
 	}
 
 	public  void createAndShowGUI(){
-		JPanel myTabbedPane=new JPanel();
+		myTabbedPane=new JPanel();
 		myTabbedPane.setLayout(new GridLayout(1, 1));
 		//创建JTabbedPane
 		tp = new JTabbedPane();
-		addOnlineFriend(firstFriend);
+		addOnlineFriend(firstfriend);
 
 		tp.setPreferredSize(new Dimension(500,500));
 		myTabbedPane.add(tp);
 		tp.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tp.setTabPlacement(JTabbedPane.LEFT);
 // 往窗口添加myTabbedPane
-		JFrame frame = new JFrame("聊天窗口");
-		ImageIcon logo=new ImageIcon(PicturePath.getPicturePath("/image/logo.jpg"));
+		frame = new JFrame("聊天窗口");
+		ImageIcon logo=new ImageIcon(PicturePath.class.getResource("image/logo.jpg"));
 		logo.setImage(logo.getImage().getScaledInstance(25, 30,
 				Image.SCALE_DEFAULT));
 		frame.setIconImage(logo.getImage());
@@ -54,7 +56,7 @@ public class ChatPane {
 			return null;
 		}
 		else{
-			ImageIcon icon=new ImageIcon(picSrc);
+			ImageIcon icon=new ImageIcon(PicturePath.class.getResource(picSrc));
 			//设置icon的大小
 			icon.setImage(icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 			return icon;
@@ -69,6 +71,11 @@ public class ChatPane {
 			if (component.getName().equals(deleteId.toString())){
 				tp.remove(tp.indexOfTabComponent(component));
 				System.out.println(component.getName()+" is offline!!!");
+				if(tp.getTabCount()==0){
+					System.out.println("there is no friend on the chatPane!");
+					ManagerPanel.delete("chatPanel");
+					ChatPane.frame.dispose();
+				}
 			}
 		}
 	}
@@ -79,18 +86,21 @@ public class ChatPane {
 		String toUserName=friend.getUserName();
 		ImageIcon myImageIcon = createImageIcon(avatarSrc);
 		ChatPanel chatPanel= new ChatPanel(userName,toUserName,tp,fromId,id);
-		tp.addTab(toUserName,myImageIcon,chatPanel);
-		if(tp.getTabCount()==1){
-			JPanel singleTabPanel=new SingleTabPanel(toUserName,myImageIcon,tp,0);
-			tp.setTabComponentAt(0, singleTabPanel);
-			singleTabPanel.setName(id.toString());
+		if (tp!=null){
+			tp.addTab(toUserName,myImageIcon,chatPanel);
+			if(tp.getTabCount()==1){
+				JPanel singleTabPanel=new SingleTabPanel(toUserName,myImageIcon,tp,0);
+				tp.setTabComponentAt(0, singleTabPanel);
+				singleTabPanel.setName(id.toString());
+			}
+			else{
+				JPanel singleTabPanel=new SingleTabPanel(toUserName,myImageIcon,tp,tp.getTabCount()-1);
+				tp.setTabComponentAt(tp.getTabCount()-1, singleTabPanel);
+				singleTabPanel.setName(id.toString());
+				System.out.println("userId="+id+" is online and added to panel!!!");
+			}
 		}
-		else{
-			JPanel singleTabPanel=new SingleTabPanel(toUserName,myImageIcon,tp,tp.getTabCount()-1);
-			tp.setTabComponentAt(tp.getTabCount()-1, singleTabPanel);
-			singleTabPanel.setName(id.toString());
-			System.out.println("userId="+id+" is online!!!");
-		}
+
 
 	}
 	public void receiveMsg(String message,Integer toId)
@@ -106,9 +116,10 @@ public class ChatPane {
 			}
 		}
 
-
 	}
 }
+
+
 
 
 

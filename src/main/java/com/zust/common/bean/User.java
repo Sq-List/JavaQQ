@@ -4,17 +4,19 @@ import java.io.Serializable;
 
 public class User implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+
 	private Integer id;
 	private String userName;
 	private String password;
 	private String avatarSrc;
-	private boolean status;
+	private Boolean status;
 
-	public boolean isStatus() {
+	public Boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(Boolean status) {
 		this.status = status;
 	}
 
