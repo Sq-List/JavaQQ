@@ -1,5 +1,12 @@
 package com.zust.client.view;
 
+import com.zust.client.UDP.ClientUDP;
+import com.zust.client.manager.ManagerInfo;
+import com.zust.client.manager.ManagerPanel;
+import com.zust.common.bean.DataFormat;
+import com.zust.common.bean.DeleteFriendRequestBean;
+import com.zust.common.bean.User;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -7,6 +14,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class Main extends JFrame
 {
@@ -21,7 +32,7 @@ public class Main extends JFrame
 	public Main(){
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = 400;
-		int height = 900;
+		int height = 700;
 		setBounds((d.width - width) / 2, (d.height - height) / 2, width, height);
 		setResizable(false);
 		setTitle("FakeQQ");
@@ -44,20 +55,26 @@ public class Main extends JFrame
 		label4.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.lightGray), BorderFactory.createEmptyBorder(1,1,1,1)));
 		button1.setBounds(70, 160, 95, 30);
 		button2.setBounds(235, 160, 95, 30);
-		label5.setBounds(0,830,400,2);
+		label5.setBounds(0,630,400,2);
 		label5.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.lightGray), BorderFactory.createEmptyBorder(1,1,1,1)));
-		label6.setBounds(130,830,140,40);
+		label6.setBounds(130,630,140,40);
 
 		button2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				resetList();
+				SearchPanel searchPanel = (SearchPanel) ManagerPanel.get("searchPanel");
+				if(searchPanel == null){
+					searchPanel = new SearchPanel();
+					ManagerPanel.add("searchPanel", searchPanel);
+				}else {
+					searchPanel.setVisible(true);
+				}
 			}
 		});
 
 		listModel = new DefaultListModel();
 		String[] data = { "好友1", "好友2", "好友3", "好友4", "好友5", "好友6", "好友7",
 				"好友8", "好友9", "好友10", "好友11" , "好友12" , "好友13" , "好友14"
-				, "好友15" , "好友16" , "好友17" , "好友18" };
+				, "好友15" , "好友16" , "不在线    好友17" , "不在线    好友18" };
 		for(int i=0;i<data.length;i++){
 			listModel.add(i, data[i]);
 		}
@@ -70,15 +87,31 @@ public class Main extends JFrame
 				JList theList = (JList) e.getSource();
 				if (e.getClickCount() == 2) {
 					int index = theList.locationToIndex(e.getPoint());
-					if (index >= 0) {
-						Object o = theList.getModel().getElementAt(index);
-						System.out.println(o.toString());
-					}
+					System.out.println(index);
+				}else if(e.getButton() == 3){
+					JPopupMenu jPopupMenu = new JPopupMenu();
+					JMenuItem jMenuItem1 = new JMenuItem("进行聊天");
+					JMenuItem jMenuItem2 = new JMenuItem("删除好友");
+					jMenuItem1.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseReleased(MouseEvent e) {
+							System.out.println("jinxingliaotian");
+						}
+					});
+					jMenuItem2.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseReleased(MouseEvent e) {
+							System.out.println("delete");
+						}
+					});
+					jPopupMenu.add(jMenuItem1);
+					jPopupMenu.add(jMenuItem2);
+					jPopupMenu.show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
 		});
 		listScroller = new JScrollPane(jList);
-		listScroller.setBounds(0, 200, 400, 632);
+		listScroller.setBounds(0, 200, 400, 432);
 
 // setBackground(Color.blue);
 		this.getContentPane().setBackground(Color.white);
@@ -102,10 +135,32 @@ public class Main extends JFrame
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				remove(listScroller);
+				HashMap<Integer, User> hashMap = (HashMap<Integer, User>) ManagerInfo.getUserMap();
 				listModel = new DefaultListModel();
-				String[] data = { "好友1", "好友2", "好友3", "好友4", "好友5"};
-				for(int i=0;i<data.length;i++){
-					listModel.add(i, data[i]);
+				Iterator iterator = hashMap.entrySet().iterator();
+				ArrayList<Integer> idList = new ArrayList<Integer>();
+				ArrayList<User> onlineUsers = new ArrayList<User>();
+				ArrayList<User> offlineUsers = new ArrayList<User>();
+				while (iterator.hasNext()){
+					HashMap.Entry<Integer, User> entry = (HashMap.Entry<Integer, User>) iterator.next();
+					User user = entry.getValue();
+					if(user.isStatus() == true){
+						onlineUsers.add(user);
+					}else{
+						offlineUsers.add(user);
+					}
+				}
+				for(int i = 0;i < onlineUsers.size();i++){
+					User user = onlineUsers.get(i);
+					listModel.add(i, user.getUserName());
+					idList.add(user.getId());
+				}
+				int count = onlineUsers.size();
+				for(int i = 0;i < offlineUsers.size();i++){
+					User user = offlineUsers.get(i);
+					listModel.add(count, "不在线    " + user.getUserName());
+					idList.add(user.getId());
+					count++;
 				}
 				jList = new JList(listModel);
 				jList.setCellRenderer(new CellRenderer());
@@ -114,12 +169,46 @@ public class Main extends JFrame
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						JList theList = (JList) e.getSource();
-						if (e.getClickCount() == 2) {
-							int index = theList.locationToIndex(e.getPoint());
+						int index = theList.locationToIndex(e.getPoint());
+						if (e.getClickCount() == 2 && index < onlineUsers.size()) {
 							if (index >= 0) {
 								Object o = theList.getModel().getElementAt(index);
 								System.out.println(o.toString());
 							}
+						}else if(e.getButton() == 3){
+							JPopupMenu jPopupMenu = new JPopupMenu();
+							if(index < onlineUsers.size()){
+								JMenuItem jMenuItem1 = new JMenuItem("进行聊天");
+								jMenuItem1.addMouseListener(new MouseAdapter() {
+									@Override
+									public void mouseReleased(MouseEvent e) {
+										System.out.println("jinxingliaotian");
+									}
+								});
+								jPopupMenu.add(jMenuItem1);
+							}
+							JMenuItem jMenuItem2 = new JMenuItem("删除好友");
+							jMenuItem2.addMouseListener(new MouseAdapter() {
+								@Override
+								public void mouseReleased(MouseEvent e) {
+									try{
+										DataFormat dataFormat = new DataFormat();
+										DeleteFriendRequestBean deleteFriendRequestBean = new DeleteFriendRequestBean();
+										deleteFriendRequestBean.setAsker(ManagerInfo.getUser());
+										deleteFriendRequestBean.setBedeleteder(hashMap.get(idList.get(index)));
+										dataFormat.setFromId(ManagerInfo.getUser().getId());
+										dataFormat.setToId(0);
+										dataFormat.setType(1);
+										dataFormat.setData(deleteFriendRequestBean);
+										dataFormat.setTime(System.currentTimeMillis());
+										ClientUDP.sendUdpMsg(dataFormat);
+									}catch (Exception exception){
+										exception.printStackTrace();
+									}
+								}
+							});
+							jPopupMenu.add(jMenuItem2);
+							jPopupMenu.show(e.getComponent(), e.getX(), e.getY());
 						}
 					}
 				});
