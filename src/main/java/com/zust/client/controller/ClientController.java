@@ -98,7 +98,7 @@ public class ClientController implements Runnable
 	}
 	public void changeStatus(){
 		User user= (User) dataFormat.getData();
-		if(user.isStatus()){
+		if(user.getStatus()){
 //			getChatPanel.addOnlineFriend(user);
 		}else{
 //			getChatPanel.delteOfflineFriend(user.getId());

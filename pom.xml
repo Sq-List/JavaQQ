@@ -87,8 +87,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>course4</finalName>
-
 		<plugins>
 			<plugin>
 				<groupId>org.mybatis.generator</groupId>

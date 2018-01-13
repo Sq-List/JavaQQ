@@ -3,13 +3,14 @@
 <mapper namespace="com.zust.server.dao.TuserMapper">
   <resultMap id="BaseResultMap" type="com.zust.server.entity.Tuser">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="avatar_src" jdbcType="VARCHAR" property="avatarSrc" />
     <result column="status" jdbcType="BIT" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, username, password, avatar_src, status
+    id, login_name, user_name, password, avatar_src, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -22,10 +23,12 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zust.server.entity.Tuser">
-    insert into user (id, username, password, 
-      avatar_src, status)
-    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{avatarSrc,jdbcType=VARCHAR}, #{status,jdbcType=BIT})
+    insert into user (id, login_name, user_name, 
+      password, avatar_src, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{loginName,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{avatarSrc,jdbcType=VARCHAR}, #{status,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.zust.server.entity.Tuser">
     insert into user
@@ -33,8 +36,11 @@
       <if test="id != null">
         id,
       </if>
-      <if test="username != null">
-        username,
+      <if test="loginName != null">
+        login_name,
+      </if>
+      <if test="userName != null">
+        user_name,
       </if>
       <if test="password != null">
         password,
@@ -50,8 +56,11 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
@@ -67,8 +76,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.zust.server.entity.Tuser">
     update user
     <set>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
+      <if test="loginName != null">
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
@@ -84,10 +96,45 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zust.server.entity.Tuser">
     update user
-    set username = #{username,jdbcType=VARCHAR},
+    set login_name = #{loginName,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       avatar_src = #{avatarSrc,jdbcType=VARCHAR},
       status = #{status,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+	<select id="selectByUsernameAndPassword" resultMap="BaseResultMap">
+		SELECT
+			*
+		FROM
+			user
+		WHERE
+			user.login = #{loginNAME}
+		AND
+			user.password = #{password}
+	</select>
+
+	<select id="selectFriendByUser" resultMap="BaseResultMap">
+		SELECT
+			*
+		FROM
+			`user`
+		WHERE
+			`user`.id IN (
+					SELECT
+						friend.request_user_id
+					FROM
+						friend
+					WHERE
+						friend.berequest_user_Id = #{id}
+				UNION
+					SELECT
+						friend.berequest_user_Id
+					FROM
+						friend
+					WHERE
+						friend.request_user_id = #{id}
+			)
+	</select>
 </mapper>

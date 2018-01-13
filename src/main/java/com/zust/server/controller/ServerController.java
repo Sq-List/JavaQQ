@@ -2,14 +2,18 @@ package com.zust.server.controller;
 
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.LoginBean;
-import com.zust.common.bean.User;
+import com.zust.common.tool.PicturePath;
 import com.zust.server.UDP.ServerUDP;
+import com.zust.server.service.FriendService;
+import com.zust.server.service.MessageService;
+import com.zust.server.service.UserService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
-import java.util.ArrayList;
 
 public class ServerController implements Runnable
 {
@@ -17,9 +21,18 @@ public class ServerController implements Runnable
 	private InetAddress senderAddress;
 	private DataFormat dataFormat;
 
+//	private static ApplicationContext ctx = new FileSystemXmlApplicationContext(
+//			PicturePath.getPicturePath("/spring/spring-service.xml").getPath());
+//	private UserService userService;
+//	private FriendService friendService;
+//	private MessageService messageService;
+
 	public ServerController(InetAddress inetAddress, byte[] data)
 	{
 		this.senderAddress = inetAddress;
+//		userService = ctx.getBean(UserService.class);
+//		friendService = ctx.getBean(FriendService.class);
+//		messageService = ctx.getBean(MessageService.class);
 
 		ByteArrayInputStream bais = null;
 		ObjectInputStream ois = null;
@@ -28,6 +41,7 @@ public class ServerController implements Runnable
 			bais = new ByteArrayInputStream(data);
 			ois = new ObjectInputStream(bais);
 			dataFormat = (DataFormat) ois.readObject();
+			System.out.println(dataFormat);
 		}
 		catch (IOException e)
 		{
@@ -97,16 +111,16 @@ public class ServerController implements Runnable
 		int senderUserId = dataFormat.getFromId();
 		ServerUDP.addUserIp(senderUserId, senderAddress.getHostAddress());
 
-		//TODO:数据库处理
-
 		LoginBean login = (LoginBean) dataFormat.getData();
 
 		LoginBean loginBean = new LoginBean();
 		loginBean.setType(1);
-		DataFormat data = new DataFormat(0, senderUserId, DataFormat.LOGIN, loginBean, System.currentTimeMillis());
+		DataFormat respDataFormat = new DataFormat(0, senderUserId, DataFormat.LOGIN, loginBean, System.currentTimeMillis());
+
+//		DataFormat respDataFormat = userService.login(dataFormat);
 		try
 		{
-			ServerUDP.sendUdpMsg(data);
+			ServerUDP.sendUdpMsg(respDataFormat);
 		}
 		catch (IOException e)
 		{

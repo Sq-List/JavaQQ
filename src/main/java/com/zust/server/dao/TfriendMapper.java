@@ -1,6 +1,9 @@
 package com.zust.server.dao;
 
 import com.zust.server.entity.Tfriend;
+import com.zust.server.entity.Tuser;
+
+import java.util.List;
 
 public interface TfriendMapper {
     int deleteByPrimaryKey(Integer id);

@@ -3,7 +3,9 @@ package com.zust.server.entity;
 public class Tuser {
     private Integer id;
 
-    private String username;
+    private String loginName;
+
+    private String userName;
 
     private String password;
 
@@ -19,12 +21,20 @@ public class Tuser {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLoginName() {
+        return loginName;
     }
 
-    public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+    public void setLoginName(String loginName) {
+        this.loginName = loginName == null ? null : loginName.trim();
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
     }
 
     public String getPassword() {
