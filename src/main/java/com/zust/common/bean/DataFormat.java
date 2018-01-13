@@ -1,6 +1,8 @@
 package com.zust.common.bean;
 
-public class DataFormat
+import java.io.Serializable;
+
+public class DataFormat implements Serializable
 {
 	//添加好友
 	public static final int ADD_FRIEND = 0;
