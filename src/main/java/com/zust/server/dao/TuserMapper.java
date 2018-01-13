@@ -20,4 +20,7 @@ public interface TuserMapper {
     Tuser selectByUsernameAndPassword(Tuser tuser);
 
     List<Tuser> selectFriendByUser(Tuser tuser);
+
+    Tuser selectUserById(int id);
+
 }

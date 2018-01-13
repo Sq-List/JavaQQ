@@ -137,4 +137,9 @@
 						friend.request_user_id = #{id}
 			)
 	</select>
+
+    <select id="selectUserById" resultType="com.zust.server.entity.Tuser">
+        SELECT * FROM USER WHERE id = #{id};
+    </select>
+
 </mapper>
