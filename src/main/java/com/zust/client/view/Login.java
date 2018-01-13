@@ -9,8 +9,7 @@ import com.zust.common.tool.PicturePath;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.IOException;
 
 public class Login extends JFrame {
@@ -99,7 +98,7 @@ public class Login extends JFrame {
         b1.setFont(font);
         b1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         b1.setBounds(170, 230, 60, 20);
-//        给按钮添加
+        // 给按钮添加事件
         b1.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
@@ -126,8 +125,7 @@ public class Login extends JFrame {
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
-//                    closePanel();
-//                    dispose();
+
                 }
             }
         });
@@ -137,6 +135,16 @@ public class Login extends JFrame {
         reg.setForeground(Color.WHITE);
         reg.setBounds(20,270,200,20);
         reg.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        //生成注册面板
+        reg.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Register register = new Register();
+                ManagerPanel.add("registerPanel",register);
+                register.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//                register.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+            }
+        });
 
         //所有组件用容器装载
         ground.add(smallCon);
@@ -148,27 +156,12 @@ public class Login extends JFrame {
         ground.add(b1);
         ground.add(reg);
         container.add(ground);
-
-//        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
-//    public void closePanel()
-//    {
-//        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//
-//    }
 
     public static void main(String[] args) {
         Login login = new Login();
+        //添加登陆面板
         ManagerPanel.add("loginPanel", login);
-//        final String name = ulName.getText();
-//        final String psw = new String(ulPasswd.getPassword());
-//        b1.addActionListener(new ActionListener() {
-//
-//            public void actionPerformed(ActionEvent e) {
-//                System.out.println("用户名:"+name+"密码"+psw);
-//            }
-//
-//        });
     }
 }

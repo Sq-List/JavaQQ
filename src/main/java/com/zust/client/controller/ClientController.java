@@ -4,10 +4,17 @@ import com.google.gson.Gson;
 import com.zust.client.UDP.ClientUDP;
 import com.zust.client.manager.ManagerInfo;
 import com.zust.client.manager.ManagerPanel;
+import com.zust.client.view.ChatPane;
+
 import com.zust.client.view.Login;
 import com.zust.client.view.Main;
 import com.zust.common.bean.DataFormat;
+
 import com.zust.common.bean.LoginBean;
+import com.zust.common.bean.User;
+
+
+import java.awt.*;
 
 import javax.swing.*;
 import java.io.ByteArrayInputStream;
@@ -93,23 +100,41 @@ public class ClientController implements Runnable
 		}
 	}
 
+	//登录方法
 	public void login()
 	{
 		LoginBean loginBean = (LoginBean) dataFormat.getData();
 		if (loginBean.getType() == 1)
 		{
 			Main main = new Main();
+			//添加好友列表面板
 			ManagerPanel.add("mainPanel", main);
+
 			Login login = (Login) ManagerPanel.get("loginPanel");
 			ManagerPanel.delete("loginPanel");
+
 			ManagerInfo.setUser(loginBean.getLoginUser());
-//			ManagerInfo.setUserMap(loginBean.getFriends());
-//			System.out.println("关闭loginPanel");
+			ManagerInfo.setUserMap(loginBean.getFriendMap());
+
+			//关闭登陆面板
 			login.dispose();
 		}
 		else
 		{
 			JOptionPane.showConfirmDialog(null, "登录失败");
+
 		}
+	}
+	public void receiveMessage(){
+//		getChatPanel.receiveMsg(dataFormat);
+	}
+	public void changeStatus(){
+		User user= (User) dataFormat.getData();
+		if(user.isStatus()){
+//			getChatPanel.addOnlineFriend(user);
+		}else{
+//			getChatPanel.delteOfflineFriend(user.getId());
+		}
+
 	}
 }

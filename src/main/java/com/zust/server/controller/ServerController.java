@@ -1,6 +1,5 @@
 package com.zust.server.controller;
 
-import com.google.gson.Gson;
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.LoginBean;
 import com.zust.common.bean.User;
@@ -100,9 +99,7 @@ public class ServerController implements Runnable
 
 		//TODO:数据库处理
 
-		System.out.println(dataFormat.getData());
 		LoginBean login = (LoginBean) dataFormat.getData();
-		System.out.println(login.getType());
 
 		LoginBean loginBean = new LoginBean();
 		loginBean.setType(1);
