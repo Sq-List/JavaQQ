@@ -118,7 +118,9 @@ public class SearchPanel extends JFrame {
 					jLabeld = new JLabel();
 					jButton = new JButton("添加");
 					jLabela.setBounds(40, 17+i*70, 40, 40);
-					jLabela.setIcon(new ImageIcon(PicturePath.getPicturePath("/image/1.png")));
+					ImageIcon imageIcon = new ImageIcon(PicturePath.getPicturePath(user.getAvatarSrc()));
+					imageIcon.setImage(imageIcon.getImage().getScaledInstance(40 ,40, Image.SCALE_DEFAULT));
+					jLabela.setIcon(imageIcon);
 					jLabelb.setBounds(130, 23+i*70, 100, 30);
 					jLabelc.setBounds(230, 23+i*70, 100, 30);
 					jButton.setBounds(350, 25+i*70, 60, 26);
@@ -133,7 +135,7 @@ public class SearchPanel extends JFrame {
 								addFriendRequestBean.setUser(user);
 								dataFormat.setTime(System.currentTimeMillis());
 								dataFormat.setFromId(ManagerInfo.getUser().getId());
-								dataFormat.setToId(0);
+								dataFormat.setToId(user.getId());
 								dataFormat.setData(addFriendRequestBean);
 								ClientUDP.sendUdpMsg(dataFormat);
 							}catch (Exception exception){
