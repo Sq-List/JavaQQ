@@ -127,14 +127,14 @@
 					FROM
 						friend
 					WHERE
-						friend.berequest_user_Id = #{id}
+						friend.berequest_user_Id = #{tuser.id}
 				UNION
 					SELECT
 						friend.berequest_user_Id
 					FROM
 						friend
 					WHERE
-						friend.request_user_id = #{id}
+						friend.request_user_id = #{tuser.id}
 			)
 			<if test="flag">
 				AND
@@ -148,7 +148,9 @@
 		FROM
 			`user`
 		WHERE
-			`user`.user_name LIKE '%${info}%'
+			`user`.user_name LIKE '%${userName}%'
+			AND
+			`user`.id != ${id}
 		ORDER BY
 			`status` DESC
 	</select>

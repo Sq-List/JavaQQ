@@ -118,6 +118,7 @@ public class SearchPanel extends JFrame {
 					jLabeld = new JLabel();
 					jButton = new JButton("添加");
 					jLabela.setBounds(40, 17+i*70, 40, 40);
+					System.out.println(PicturePath.getPicturePath(user.getAvatarSrc()));
 					ImageIcon imageIcon = new ImageIcon(PicturePath.getPicturePath(user.getAvatarSrc()));
 					imageIcon.setImage(imageIcon.getImage().getScaledInstance(40 ,40, Image.SCALE_DEFAULT));
 					jLabela.setIcon(imageIcon);

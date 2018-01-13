@@ -9,6 +9,8 @@ import com.zust.server.UDP.ServerUDP;
 import com.zust.server.service.FriendService;
 import com.zust.server.service.MessageService;
 import com.zust.server.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 import java.io.ByteArrayInputStream;
@@ -19,6 +21,8 @@ import java.util.List;
 
 public class ServerController implements Runnable
 {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	//发送方的InetAddress
 	private InetAddress senderAddress;
 	private DataFormat dataFormat;
@@ -43,6 +47,9 @@ public class ServerController implements Runnable
 			bais = new ByteArrayInputStream(data);
 			ois = new ObjectInputStream(bais);
 			dataFormat = (DataFormat) ois.readObject();
+			logger.info("消息类型为：" + dataFormat.getType());
+			logger.info("发送方为：" + dataFormat.getFromId());
+			logger.info("接收方为：" + dataFormat.getToId());
 		}
 		catch (IOException e)
 		{
@@ -119,8 +126,10 @@ public class ServerController implements Runnable
 		}
 
 		//如果用户登录成功
-		if (((LoginBean)respDataFormat.getData()).getLoginUser() != null)
+		User loginUser = ((LoginBean)respDataFormat.getData()).getLoginUser();
+		if (loginUser != null)
 		{
+			dataFormat.setFromId(loginUser.getId());
 			sendUserStatus();
 		}
 	}

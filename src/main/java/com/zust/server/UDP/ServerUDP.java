@@ -44,8 +44,12 @@ public class ServerUDP
 		byte[] buffer = udpMsg.toByte();
 
 		//发送数据包给目标对象
-		DatagramPacket dp = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(userIpMap.get(udpMsg.getToId())), 2223);
-		dSender.send(dp);
+		InetAddress toAddress = InetAddress.getByName(userIpMap.get(udpMsg.getToId()));
+		if (toAddress != null)
+		{
+			DatagramPacket dp = new DatagramPacket(buffer, buffer.length, toAddress, 2223);
+			dSender.send(dp);
+		}
 
 		//将数据包放入消息队列
 		udpMsgMap.put(udpMsg.getUdpId(), udpMsg);

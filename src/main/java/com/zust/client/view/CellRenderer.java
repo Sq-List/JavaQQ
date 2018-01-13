@@ -30,7 +30,8 @@ public class CellRenderer extends JLabel implements ListCellRenderer {
             setBackground(list.getBackground());
             setForeground(list.getForeground());
         }
-        setIcon(icons.get(index));//设置图片
+		System.out.println("index:" + index + ", " + icons);
+//        setIcon(icons.get(index));//设置图片
         setEnabled(list.isEnabled());
         setFont(list.getFont());
         setOpaque(true);

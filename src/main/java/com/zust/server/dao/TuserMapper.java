@@ -34,7 +34,7 @@ public interface TuserMapper {
 	 * @param info
 	 * @return
 	 */
-	List<Tuser> selectUserByNickName(String info);
+	List<Tuser> selectUserByNickName(Tuser tuser);
 
     List<Tuser> selectFriendByUser(Tuser tuser);
 

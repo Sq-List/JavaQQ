@@ -9,6 +9,8 @@ import com.zust.client.view.Login;
 import com.zust.client.view.Main;
 import com.zust.client.view.SearchPanel;
 import com.zust.common.bean.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 
@@ -22,6 +24,8 @@ import java.util.*;
 
 public class ClientController implements Runnable
 {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	private DataFormat dataFormat;
 
 	public ClientController(byte[] data)
@@ -33,6 +37,9 @@ public class ClientController implements Runnable
 			bais = new ByteArrayInputStream(data);
 			ois = new ObjectInputStream(bais);
 			dataFormat = (DataFormat) ois.readObject();
+			logger.info("消息类型为：" + dataFormat.getType());
+			logger.info("发送方为：" + dataFormat.getFromId());
+			logger.info("接收方为：" + dataFormat.getToId());
 		}
 		catch (IOException e)
 		{
@@ -68,19 +75,19 @@ public class ClientController implements Runnable
 		switch (dataFormat.getType())
 		{
 			case DataFormat.ADD_FRIEND:
-				//TODO: 添加好友请求，最好写成方法
+				addRequest();
+				getAddFeedBack();
 				break;
 
 			case DataFormat.SEARCH_FRIEND:
-				//TODO: 搜索好友请求，最好写成方法
+				receiveSearchInfos();
 				break;
 
 			case DataFormat.DELETE_FRIEND:
-				//TODO: 删除好友请求，最好写成方法
+				getDeleteFeedBack();
 				break;
 
 			case DataFormat.MESSAGE:
-				//TODO: 消息请求，最好写成方法
 				receiveMessage();
 				break;
 
@@ -93,8 +100,8 @@ public class ClientController implements Runnable
 				break;
 
 			case DataFormat.USER_STATE:
-				//TODO: 其他用户上下线请求，最好写成方法
 				changeStatus();
+				onlineOrOfflineMessage();
 				break;
 		}
 	}
