@@ -174,11 +174,8 @@ public class ClientUDP
 
 					System.out.println("接收端-已发送resp:" + resp.getUdpId() + "应答");
 
-<<<<<<< HEAD
-					//TODO 交给其他线程处理UI
-=======
+
 					//交给其他线程处理UI
->>>>>>> 39459c3594234ff9b77713ef8e35d74966e702e2
 					new Thread(new ClientController(udpMsg.getData())).start();
 				}
 			}
