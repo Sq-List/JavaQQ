@@ -198,7 +198,10 @@ public class ServerUDP
 	{
 		synchronized (userIpMap)
 		{
-			userIpMap.remove(new Integer(userId));
+			if (userIpMap.get(userId) != null)
+			{
+				userIpMap.remove(userId);
+			}
 		}
 	}
 

@@ -95,7 +95,7 @@ public class ServerController implements Runnable
 				break;
 
 			case DataFormat.QUIT:
-				//TODO: 退出请求，最好写成方法
+				quit();
 				break;
 
 			case DataFormat.USER_STATE:
@@ -109,8 +109,6 @@ public class ServerController implements Runnable
 		int senderUserId = dataFormat.getFromId();
 		ServerUDP.addUserIp(senderUserId, senderAddress.getHostAddress());
 
-		LoginBean login = (LoginBean) dataFormat.getData();
-
 		DataFormat respDataFormat = userService.login(dataFormat);
 		try
 		{
@@ -120,5 +118,13 @@ public class ServerController implements Runnable
 		{
 			e.printStackTrace();
 		}
+	}
+
+	public void quit()
+	{
+		int senderUserId = dataFormat.getFromId();
+		ServerUDP.deleteUserIp(senderUserId);
+
+		
 	}
 }

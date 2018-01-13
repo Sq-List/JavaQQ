@@ -43,11 +43,10 @@ public class UserServiceImpl implements UserService
 			tuser.setStatus(true);
 			tuserMapper.updateByPrimaryKey(tuser);
 
+			User respUser = new User();
+			BeanUtils.copyProperties(tuser, respUser);
 			respLoginBean.setType(1);
-
-			User respLoginUser = new User();
-			BeanUtils.copyProperties(tuser, respLoginUser);
-			respLoginBean.setLoginUser(respLoginUser);
+			respLoginBean.setLoginUser(respUser);
 
 			Map<Integer, User> userMap = new HashMap<>();
 			List<Tuser> tuserList = tuserMapper.selectFriendByUser(tuser);
@@ -66,7 +65,7 @@ public class UserServiceImpl implements UserService
 			respLoginBean.setLoginUser(null);
 		}
 
-		respDataFormat.setData(loginBean);
+		respDataFormat.setData(respLoginBean);
 
 		return respDataFormat;
 	}
