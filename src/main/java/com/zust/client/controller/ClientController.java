@@ -8,8 +8,13 @@ import com.zust.client.view.Main;
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.LoginBean;
 
+<<<<<<< HEAD
 import javax.swing.*;
+=======
+import java.io.ByteArrayInputStream;
+>>>>>>> 39459c3594234ff9b77713ef8e35d74966e702e2
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.SocketException;
 
@@ -19,9 +24,47 @@ public class ClientController implements Runnable
 
 	public ClientController(byte[] data)
 	{
+<<<<<<< HEAD
 		Gson gson = new Gson();
 		dataFormat = gson.fromJson(new String(data), DataFormat.class);
 		System.out.println("构造器" + dataFormat.getType());
+=======
+		ByteArrayInputStream bais = null;
+		ObjectInputStream ois = null;
+		try
+		{
+			bais = new ByteArrayInputStream(data);
+			ois = new ObjectInputStream(bais);
+			dataFormat = (DataFormat) ois.readObject();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		catch (ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			try
+			{
+				if (ois != null)
+				{
+					ois.close();
+				}
+
+				if (bais != null)
+				{
+					bais.close();
+				}
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+>>>>>>> 39459c3594234ff9b77713ef8e35d74966e702e2
 	}
 
 	public void run()

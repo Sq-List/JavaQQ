@@ -1,11 +1,13 @@
 package com.zust.common.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Zzzz on 2018/1/12.
  */
-public class LoginBean {
+public class LoginBean implements Serializable
+{
 
     private int type;
 
