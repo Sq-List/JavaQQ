@@ -1,6 +1,5 @@
 package com.zust.client.UDP;
 
-import com.google.gson.Gson;
 import com.zust.client.controller.ClientController;
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.UdpMsg;

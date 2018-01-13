@@ -1,14 +1,10 @@
 package com.zust.client.controller;
 
-import com.google.gson.Gson;
 import com.zust.client.UDP.ClientUDP;
 import com.zust.client.view.ChatPane;
 import com.zust.client.view.Login;
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.User;
-
-
-import java.awt.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
