@@ -5,7 +5,7 @@ bin/
 .classpath
 .project
 .settings
-spring-dao.xml
+jdbc.properties
 
 # Windows:
 Thumbs.db
