@@ -11,7 +11,6 @@ import java.util.Map;
 
 public class ChatPane {
 	Integer fromId;
-	List<User> friends;
 	JTabbedPane tp;
 	String userName;
 	User firstFriend;
@@ -54,7 +53,7 @@ public class ChatPane {
 			return null;
 		}
 		else{
-			ImageIcon icon=new ImageIcon(picSrc);
+			ImageIcon icon=new ImageIcon(PicturePath.getPicturePath(picSrc));
 			//设置icon的大小
 			icon.setImage(icon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 			return icon;
