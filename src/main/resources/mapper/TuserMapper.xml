@@ -136,5 +136,20 @@
 					WHERE
 						friend.request_user_id = #{id}
 			)
+			<if test="flag">
+				AND
+					`user`.status = 1
+			</if>
+	</select>
+
+	<select id="selectUserByNickName" resultMap="BaseResultMap">
+		SELECT
+			*
+		FROM
+			`user`
+		WHERE
+			`user`.user_name LIKE '%${info}%'
+		ORDER BY
+			`status` DESC
 	</select>
 </mapper>

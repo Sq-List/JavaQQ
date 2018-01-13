@@ -2,6 +2,7 @@ package com.zust.server.controller;
 
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.LoginBean;
+import com.zust.common.bean.User;
 import com.zust.server.tool.LoadXml;
 import com.zust.server.UDP.ServerUDP;
 import com.zust.server.service.FriendService;
@@ -13,6 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
+import java.util.List;
 
 public class ServerController implements Runnable
 {
@@ -79,7 +81,7 @@ public class ServerController implements Runnable
 				break;
 
 			case DataFormat.SEARCH_FRIEND:
-				//TODO: 搜索好友请求，最好写成方法
+				searchUser();
 				break;
 
 			case DataFormat.DELETE_FRIEND:
@@ -87,7 +89,7 @@ public class ServerController implements Runnable
 				break;
 
 			case DataFormat.MESSAGE:
-				//TODO: 消息请求，最好写成方法
+				message();
 				break;
 
 			case DataFormat.LOGIN:
@@ -96,10 +98,6 @@ public class ServerController implements Runnable
 
 			case DataFormat.QUIT:
 				quit();
-				break;
-
-			case DataFormat.USER_STATE:
-				//TODO: 其他用户上下线请求，最好写成方法
 				break;
 		}
 	}
@@ -118,6 +116,12 @@ public class ServerController implements Runnable
 		{
 			e.printStackTrace();
 		}
+
+		//如果用户登录成功
+		if (((LoginBean)respDataFormat.getData()).getLoginUser() != null)
+		{
+			sendUserStatus();
+		}
 	}
 
 	public void quit()
@@ -125,6 +129,52 @@ public class ServerController implements Runnable
 		int senderUserId = dataFormat.getFromId();
 		ServerUDP.deleteUserIp(senderUserId);
 
-		
+		userService.quit(dataFormat);
+
+		sendUserStatus();
+	}
+
+	public void sendUserStatus()
+	{
+		try
+		{
+			List<DataFormat> dataFormatList = userService.findUserOnlineFriend(dataFormat);
+			for (DataFormat d : dataFormatList)
+			{
+				ServerUDP.sendUdpMsg(d);
+			}
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public void message()
+	{
+		messageService.addMessage(dataFormat);
+
+		try
+		{
+			ServerUDP.sendUdpMsg(dataFormat);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public void searchUser()
+	{
+		DataFormat respDataFormat = userService.searchUser(dataFormat);
+
+		try
+		{
+			ServerUDP.sendUdpMsg(respDataFormat);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
