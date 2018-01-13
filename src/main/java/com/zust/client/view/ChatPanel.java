@@ -1,6 +1,8 @@
 package com.zust.client.view;
 
 import com.zust.client.UDP.ClientUDP;
+import com.zust.client.manager.ManagerPanel;
+import com.zust.common.bean.ChatBean;
 import com.zust.common.bean.DataFormat;
 
 import javax.swing.*;
@@ -10,16 +12,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import static java.lang.System.*;
 //右边聊天面板：
 class ChatPanel extends JPanel {
     String userName;
@@ -73,11 +67,21 @@ class ChatPanel extends JPanel {
             }
         });
         JButton closeBtn = new JButton("关闭");
+        Font font = new Font("微软雅黑",Font.PLAIN,12);
+        sendBtn.setFont(font);
+        closeBtn.setFont(font);
+        showPanel.setFont(font);
         closeBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 tabbedPane.remove(tabbedPane.getSelectedIndex());
+                if(tabbedPane.getTabCount()==0){
+                    System.out.println("there is no friend on the chatPane!");
+                    ManagerPanel.delete("chatPanel");
+                    ChatPane.frame.dispose();
+
+                }
             }
         });
         jp2.add(sendBtn);
@@ -96,9 +100,11 @@ class ChatPanel extends JPanel {
             showPanel.append(userName+"  "+date+":\r\n");
             showPanel.append("          "+editTextArea.getText()+"\r\n");
             String message=editTextArea.getText();
+            ChatBean chatBean=new ChatBean();
+            chatBean.setMessage(message);
 //            发送包：
             new ClientUDP();
-            DataFormat dataFormat = new DataFormat(fromId, toId, DataFormat.MESSAGE, message, System.currentTimeMillis());
+            DataFormat dataFormat = new DataFormat(fromId, toId, DataFormat.MESSAGE, chatBean, System.currentTimeMillis());
             ClientUDP.sendUdpMsg(dataFormat);
             editTextArea.setText("");
         }
@@ -108,7 +114,7 @@ class ChatPanel extends JPanel {
             showPanel.append(err+"\n");
         }
     }
-     public  void showMsg(String msg){
+    public  void showMsg(String msg){
         //        判断是否有消息：
         if(msg!=null){
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
