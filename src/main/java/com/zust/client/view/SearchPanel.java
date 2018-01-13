@@ -1,8 +1,18 @@
 package com.zust.client.view;
 
+import com.zust.client.UDP.ClientUDP;
+import com.zust.client.manager.ManagerInfo;
+import com.zust.common.bean.AddFriendRequestBean;
+import com.zust.common.bean.DataFormat;
+import com.zust.common.bean.SearchUserRequestBean;
+import com.zust.common.bean.User;
+import com.zust.common.tool.PicturePath;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -41,7 +51,7 @@ public class SearchPanel extends JFrame {
 		label2.setBounds(0,60,500,1);
 		label2.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.darkGray), BorderFactory.createEmptyBorder(1,1,1,1)));
 		label3.setBounds(40, 17, 40, 40);
-		label3.setIcon(new ImageIcon(getClass().getResource("../../../image/1.png")));
+		label3.setIcon(new ImageIcon(PicturePath.getPicturePath("/image/1.png")));
 		label4.setBounds(130, 23, 100, 30);
 		label5.setBounds(230, 23, 100, 30);
 		button2.setBounds(350, 25, 60, 26);
@@ -50,15 +60,24 @@ public class SearchPanel extends JFrame {
 
 		button1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				refreshList();
-//				listScroller.removeAll();
-//				listScroller.validate();
-//				listScroller.repaint();
+//				refreshList();
+				try {
+					DataFormat dataFormat = new DataFormat();
+					dataFormat.setToId(0);
+					dataFormat.setTime(System.currentTimeMillis());
+					dataFormat.setType(2);
+					SearchUserRequestBean searchUserRequestBean = new SearchUserRequestBean();
+					searchUserRequestBean.setInfo(textField.getText());
+					dataFormat.setData(searchUserRequestBean);
+					dataFormat.setFromId(ManagerInfo.getUser().getId());
+					ClientUDP.sendUdpMsg(dataFormat);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 
 		jPanel.setLayout(null);
-//		jPanel.setSize(400, 570);
 		jPanel.setPreferredSize(new Dimension(400,100));
 		jPanel.add(label3);
 		jPanel.add(label4);
@@ -67,11 +86,6 @@ public class SearchPanel extends JFrame {
 		jPanel.add(label6);
 		listScroller = new JScrollPane(jPanel);
 		listScroller.setBounds(0, 60, 500, 340);
-//		listScroller.add(label3);
-//		listScroller.add(label4);
-//		listScroller.add(label5);
-//		listScroller.add(label6);
-//		listScroller.add(button2);
 
 
 //		setBackground(Color.blue);
@@ -84,30 +98,51 @@ public class SearchPanel extends JFrame {
 	    add(listScroller);
 		this.setVisible(true);
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
-	public void refreshList(){
+	public void refreshList(java.util.List<User> userList){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				remove(listScroller);
 				JPanel jPaneltest = new JPanel();
 				jPaneltest.setLayout(null);
 				jPaneltest.setPreferredSize(new Dimension(400,370));
-				for(int i = 0;i< 5;i++){
-//			jPaneltest.setPreferredSize(new Dimension(500, 70*(i+1)));
+				for(int i = 0;i < userList.size();i++){
+					User user = userList.get(i);
 					JLabel jLabela, jLabelb, jLabelc, jLabeld;
 					JButton jButton;
 					jLabela = new JLabel();
-					jLabelb = new JLabel("hahaha");
-					jLabelc = new JLabel("123456");
+					jLabelb = new JLabel(user.getUserName());
+					jLabelc = new JLabel(user.getId().toString());
 					jLabeld = new JLabel();
 					jButton = new JButton("添加");
 					jLabela.setBounds(40, 17+i*70, 40, 40);
-					jLabela.setIcon(new ImageIcon(getClass().getResource("../../../image/1.png")));
+					ImageIcon imageIcon = new ImageIcon(PicturePath.getPicturePath(user.getAvatarSrc()));
+					imageIcon.setImage(imageIcon.getImage().getScaledInstance(40 ,40, Image.SCALE_DEFAULT));
+					jLabela.setIcon(imageIcon);
 					jLabelb.setBounds(130, 23+i*70, 100, 30);
 					jLabelc.setBounds(230, 23+i*70, 100, 30);
 					jButton.setBounds(350, 25+i*70, 60, 26);
+					jButton.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							try{
+								DataFormat dataFormat = new DataFormat();
+								dataFormat.setType(0);
+								AddFriendRequestBean addFriendRequestBean = new AddFriendRequestBean();
+								addFriendRequestBean.setType(0);
+								addFriendRequestBean.setUser(user);
+								dataFormat.setTime(System.currentTimeMillis());
+								dataFormat.setFromId(ManagerInfo.getUser().getId());
+								dataFormat.setToId(user.getId());
+								dataFormat.setData(addFriendRequestBean);
+								ClientUDP.sendUdpMsg(dataFormat);
+							}catch (Exception exception){
+								exception.printStackTrace();
+							}
+						}
+					});
 					jLabeld.setBounds(0,70+i*70,500,1);
 					jLabeld.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.lightGray), BorderFactory.createEmptyBorder(1,1,1,1)));
 					jPaneltest.add(jLabela);
@@ -119,8 +154,6 @@ public class SearchPanel extends JFrame {
 				listScroller = new JScrollPane(jPaneltest);
 				listScroller.setBounds(0, 60, 500, 340);
 				add(listScroller);
-//		listScroller.setVerticalScrollBar(new JScrollBar());
-//		listScroller.repaint();
 				validate();
 			}
 		});

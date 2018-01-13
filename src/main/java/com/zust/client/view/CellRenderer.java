@@ -4,18 +4,19 @@ import com.zust.common.tool.PicturePath;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created by Zzzz on 2018/1/11.
  */
 public class CellRenderer extends JLabel implements ListCellRenderer {
 
-    Icon[] icons;
+    ArrayList<Icon> icons;
     public CellRenderer(){};
-//    public CellRenderer(Icon[] icons) {
-//        // TODO Auto-generated constructor stub
-//        this.icons=icons;
-//    }
+    public CellRenderer(ArrayList<Icon> icons) {
+        // TODO Auto-generated constructor stub
+        this.icons=icons;
+    }
 
 
     public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -29,7 +30,7 @@ public class CellRenderer extends JLabel implements ListCellRenderer {
             setBackground(list.getBackground());
             setForeground(list.getForeground());
         }
-        setIcon(new ImageIcon(PicturePath.getPicturePath("/image/1.png")));//设置图片
+        setIcon(icons.get(index));//设置图片
         setEnabled(list.isEnabled());
         setFont(list.getFont());
         setOpaque(true);
