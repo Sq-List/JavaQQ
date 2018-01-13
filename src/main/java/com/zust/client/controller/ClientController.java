@@ -122,7 +122,7 @@ public class ClientController implements Runnable
 		}
 		else
 		{
-			JOptionPane.showConfirmDialog(null, "登录失败");
+			JOptionPane.showMessageDialog(null, "登录失败", "提示", JOptionPane.ERROR_MESSAGE);
 
 		}
 	}
@@ -191,7 +191,7 @@ public class ClientController implements Runnable
 	public void onlineOrOfflineMessage(){
 		UserStateBean userStateBean = (UserStateBean) dataFormat.getData();
 		User user = userStateBean.getUser();
-		if(user.isStatus() == true){
+		if(user.getStatus() == true){
 			ManagerInfo.getUserMap().put(user.getId(), user);
 			resetFriendList(user.getUserName() + "上线了。");
 		}else{

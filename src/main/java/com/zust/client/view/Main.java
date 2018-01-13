@@ -12,10 +12,7 @@ import com.zust.common.tool.PicturePath;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -140,6 +137,22 @@ public class Main extends JFrame
 		this.setVisible(true);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				super.windowClosing(e);
+				try{
+					DataFormat dataFormat = new DataFormat();
+					dataFormat.setTime(System.currentTimeMillis());
+					dataFormat.setType(DataFormat.QUIT);
+					dataFormat.setToId(0);
+					dataFormat.setFromId(ManagerInfo.getUser().getId());
+					ClientUDP.sendUdpMsg(dataFormat);
+				}catch (Exception exception){
+					exception.printStackTrace();
+				}
+			}
+		});
 	}
 
 	public void resetList(){
@@ -156,7 +169,7 @@ public class Main extends JFrame
 				while (iterator.hasNext()){
 					HashMap.Entry<Integer, User> entry = (HashMap.Entry<Integer, User>) iterator.next();
 					User user = entry.getValue();
-					if(user.isStatus() == true){
+					if(user.getStatus() == true){
 						onlineUsers.add(user);
 					}else{
 						offlineUsers.add(user);
