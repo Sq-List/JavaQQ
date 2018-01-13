@@ -14,7 +14,7 @@ public class ChatPane {
 	JTabbedPane tp;
 	String userName;
 	User firstFriend;
-	public ChatPane(User firstfriend,Integer fromId,String userName){
+	public ChatPane(User firstFriend,Integer fromId,String userName){
 		this.firstFriend=firstFriend;
 		this.fromId=fromId;
 		this.userName=userName;
