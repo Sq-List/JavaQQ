@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class ClientUDP
 {
-	private static final String serverIp = "127.0.0.1";
+	private static final String serverIp = "172.16.54.184";
 	private static final Map<Integer, UdpMsg> udpMsgMap = new HashMap<Integer, UdpMsg>();
 	private static int udpId = 1;
 	//接收端的DatagramSocket
@@ -174,11 +174,7 @@ public class ClientUDP
 
 					System.out.println("接收端-已发送resp:" + resp.getUdpId() + "应答");
 
-<<<<<<< HEAD
-					//TODO 交给其他线程处理UI
-=======
 					//交给其他线程处理UI
->>>>>>> 39459c3594234ff9b77713ef8e35d74966e702e2
 					new Thread(new ClientController(udpMsg.getData())).start();
 				}
 			}

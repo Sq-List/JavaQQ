@@ -126,6 +126,8 @@ public class Login extends JFrame {
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }
+//                    closePanel();
+//                    dispose();
                 }
             }
         });
@@ -147,14 +149,14 @@ public class Login extends JFrame {
         ground.add(reg);
         container.add(ground);
 
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
-    public void closePanel()
-    {
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-    }
+//    public void closePanel()
+//    {
+//        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//
+//    }
 
     public static void main(String[] args) {
         Login login = new Login();

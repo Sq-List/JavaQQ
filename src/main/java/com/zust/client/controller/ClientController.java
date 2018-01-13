@@ -2,17 +2,15 @@ package com.zust.client.controller;
 
 import com.google.gson.Gson;
 import com.zust.client.UDP.ClientUDP;
+import com.zust.client.manager.ManagerInfo;
 import com.zust.client.manager.ManagerPanel;
 import com.zust.client.view.Login;
 import com.zust.client.view.Main;
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.LoginBean;
 
-<<<<<<< HEAD
 import javax.swing.*;
-=======
 import java.io.ByteArrayInputStream;
->>>>>>> 39459c3594234ff9b77713ef8e35d74966e702e2
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.InetAddress;
@@ -24,11 +22,6 @@ public class ClientController implements Runnable
 
 	public ClientController(byte[] data)
 	{
-<<<<<<< HEAD
-		Gson gson = new Gson();
-		dataFormat = gson.fromJson(new String(data), DataFormat.class);
-		System.out.println("构造器" + dataFormat.getType());
-=======
 		ByteArrayInputStream bais = null;
 		ObjectInputStream ois = null;
 		try
@@ -64,7 +57,6 @@ public class ClientController implements Runnable
 				e.printStackTrace();
 			}
 		}
->>>>>>> 39459c3594234ff9b77713ef8e35d74966e702e2
 	}
 
 	public void run()
@@ -103,15 +95,17 @@ public class ClientController implements Runnable
 
 	public void login()
 	{
-		System.out.println("123");
-		System.out.println(dataFormat.getData());
 		LoginBean loginBean = (LoginBean) dataFormat.getData();
 		if (loginBean.getType() == 1)
 		{
 			Main main = new Main();
 			ManagerPanel.add("mainPanel", main);
 			Login login = (Login) ManagerPanel.get("loginPanel");
-
+			ManagerPanel.delete("loginPanel");
+			ManagerInfo.setUser(loginBean.getLoginUser());
+//			ManagerInfo.setUserMap(loginBean.getFriends());
+//			System.out.println("关闭loginPanel");
+			login.dispose();
 		}
 		else
 		{
