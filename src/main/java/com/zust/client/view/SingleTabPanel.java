@@ -30,6 +30,8 @@ class SingleTabPanel extends JPanel {
 		userInfo=new JLabel(userName,icon,JLabel.LEFT );
 		userInfo.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		userInfo.setBackground(new Color(238,238,238));
+		Font font = new Font("微软雅黑",Font.PLAIN,12);
+		userInfo.setFont(font);
 		add(userInfo,BorderLayout.WEST);
 
 //        显示当前信息数量：

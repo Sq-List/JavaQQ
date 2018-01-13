@@ -67,6 +67,10 @@ class ChatPanel extends JPanel {
             }
         });
         JButton closeBtn = new JButton("关闭");
+        Font font = new Font("微软雅黑",Font.PLAIN,12);
+        sendBtn.setFont(font);
+        closeBtn.setFont(font);
+        showPanel.setFont(font);
         closeBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
