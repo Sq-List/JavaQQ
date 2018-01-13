@@ -1,17 +1,12 @@
-package com.zust.server.springContext;
+package com.zust.server.tool;
 
 import com.zust.common.tool.PicturePath;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-public class SpringContext
+public class LoadXml
 {
-	private static ApplicationContext ctx;
-
-	static
-	{
-		ctx = new FileSystemXmlApplicationContext(PicturePath.getPicturePath("/spring/spring-service.xml").getPath());
-	}
+	private static ApplicationContext ctx = new FileSystemXmlApplicationContext(PicturePath.getPicturePath("/spring/spring-service.xml").getPath());;
 
 	public static ApplicationContext getCtx()
 	{

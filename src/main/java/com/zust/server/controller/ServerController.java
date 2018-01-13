@@ -2,13 +2,12 @@ package com.zust.server.controller;
 
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.LoginBean;
-import com.zust.common.tool.PicturePath;
+import com.zust.server.tool.LoadXml;
 import com.zust.server.UDP.ServerUDP;
 import com.zust.server.service.FriendService;
 import com.zust.server.service.MessageService;
 import com.zust.server.service.UserService;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -21,18 +20,18 @@ public class ServerController implements Runnable
 	private InetAddress senderAddress;
 	private DataFormat dataFormat;
 
-//	private static ApplicationContext ctx = new FileSystemXmlApplicationContext(
-//			PicturePath.getPicturePath("/spring/spring-service.xml").getPath());
-//	private UserService userService;
-//	private FriendService friendService;
-//	private MessageService messageService;
+	private UserService userService;
+	private FriendService friendService;
+	private MessageService messageService;
 
 	public ServerController(InetAddress inetAddress, byte[] data)
 	{
 		this.senderAddress = inetAddress;
-//		userService = ctx.getBean(UserService.class);
-//		friendService = ctx.getBean(FriendService.class);
-//		messageService = ctx.getBean(MessageService.class);
+
+		ApplicationContext ctx = LoadXml.getCtx();
+		userService = ctx.getBean(UserService.class);
+		friendService = ctx.getBean(FriendService.class);
+		messageService = ctx.getBean(MessageService.class);
 
 		ByteArrayInputStream bais = null;
 		ObjectInputStream ois = null;
@@ -112,11 +111,7 @@ public class ServerController implements Runnable
 
 		LoginBean login = (LoginBean) dataFormat.getData();
 
-		LoginBean loginBean = new LoginBean();
-		loginBean.setType(1);
-		DataFormat respDataFormat = new DataFormat(0, senderUserId, DataFormat.LOGIN, loginBean, System.currentTimeMillis());
-
-//		DataFormat respDataFormat = userService.login(dataFormat);
+		DataFormat respDataFormat = userService.login(dataFormat);
 		try
 		{
 			ServerUDP.sendUdpMsg(respDataFormat);

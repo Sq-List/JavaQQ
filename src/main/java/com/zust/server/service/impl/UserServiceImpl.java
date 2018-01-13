@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService
 	{
 		//要返回的DataFormat
 		DataFormat respDataFormat = new DataFormat();
+		respDataFormat.setType(DataFormat.LOGIN);
 		respDataFormat.setFromId(0);
 		respDataFormat.setToId(data.getFromId());
 

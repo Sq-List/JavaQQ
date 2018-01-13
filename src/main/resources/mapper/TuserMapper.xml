@@ -110,7 +110,7 @@
 		FROM
 			user
 		WHERE
-			user.login = #{loginNAME}
+			user.login_name = #{loginName}
 		AND
 			user.password = #{password}
 	</select>

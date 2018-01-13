@@ -13,6 +13,15 @@ public class User implements Serializable
 	private String avatarSrc;
 	private Boolean status;
 
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status)
+	{
+		this.status = status;
+	}
+
 	public Integer getId()
 	{
 		return id;
@@ -31,16 +40,6 @@ public class User implements Serializable
 	public void setLoginName(String loginName)
 	{
 		this.loginName = loginName;
-	}
-
-	public Boolean getStatus()
-	{
-		return status;
-	}
-
-	public void setStatus(Boolean status)
-	{
-		this.status = status;
 	}
 
 	public String getUserName()

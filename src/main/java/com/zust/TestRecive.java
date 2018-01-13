@@ -13,7 +13,6 @@ public class TestRecive
 	{
 		try
 		{
-			ApplicationContext ctx = new FileSystemXmlApplicationContext(PicturePath.getPicturePath("/spring/spring-service.xml").getPath());
 			new ServerUDP();
 		}
 		catch (SocketException e)

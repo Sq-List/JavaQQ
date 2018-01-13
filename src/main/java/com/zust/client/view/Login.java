@@ -108,7 +108,7 @@ public class Login extends JFrame {
                     String psw = new String(ulPasswd.getPassword());
 
                     User user = new User();
-                    user.setUserName(username);
+                    user.setLoginName(username);
                     user.setPassword(psw);
 
                     LoginBean loginBean = new LoginBean();
