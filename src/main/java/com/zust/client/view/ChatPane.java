@@ -80,7 +80,7 @@ public class ChatPane {
 		ImageIcon myImageIcon = createImageIcon(avatarSrc);
 		ChatPanel chatPanel= new ChatPanel(userName,toUserName,tp,fromId,id);
 		tp.addTab(toUserName,myImageIcon,chatPanel);
-		if(tp.getTabCount()==0){
+		if(tp.getTabCount()==1){
 			JPanel singleTabPanel=new SingleTabPanel(toUserName,myImageIcon,tp,0);
 			tp.setTabComponentAt(0, singleTabPanel);
 			singleTabPanel.setName(id.toString());
@@ -93,15 +93,14 @@ public class ChatPane {
 		}
 
 	}
-	public void receiveMsg(DataFormat dataFormat)
+	public void receiveMsg(String message,Integer toId)
 	{
 
 		for(int i=0;i<tp.getTabCount();i++){
-			if(String.valueOf(dataFormat.getToId()).equals(tp.getTabComponentAt(i).getName())){
+			if(String.valueOf(toId).equals(tp.getTabComponentAt(i).getName())){
 				//聊天面板添加聊天信息：
 				ChatPanel chatPanel=(ChatPanel)tp.getComponentAt(i);
-				String msg=dataFormat.getData().toString();
-				chatPanel.showMsg(msg);
+				chatPanel.showMsg(message);
 				SingleTabPanel singleTabPanel=(SingleTabPanel)tp.getTabComponentAt(i);
 				singleTabPanel.changeMsgNum("add");
 			}
