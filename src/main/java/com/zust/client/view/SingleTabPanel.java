@@ -1,5 +1,8 @@
 package com.zust.client.view;
 
+import com.zust.client.manager.ManagerPanel;
+import com.zust.common.tool.PicturePath;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -89,7 +92,7 @@ class SingleTabPanel extends JPanel {
 	private class CloseButton extends JButton {
 		private ImageIcon icon;
 		public CloseButton(){
-			icon=new ImageIcon("src/image/close.png");
+			icon=new ImageIcon(PicturePath.class.getResource("image/close.png"));
 			icon.setImage(icon.getImage().getScaledInstance(15, 15,
 					Image.SCALE_DEFAULT));
 			setIcon(icon);
@@ -99,9 +102,11 @@ class SingleTabPanel extends JPanel {
 			addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent e){
 					tabbedPane.remove(tabbedPane.indexOfTabComponent(SingleTabPanel.this));
-					System.out.println("detete success!");
+					System.out.println("detete friendId="+SingleTabPanel.this.getName()+" success!");
 					if (tabbedPane.getTabCount()==0) {
-						tabbedPane.addTab("blank", null);
+						System.out.println("there is no friend on the chatPane!");
+						ManagerPanel.delete("chatPanel");
+						ChatPane.frame.dispose();
 					}
 
 				}

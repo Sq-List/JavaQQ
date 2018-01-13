@@ -1,6 +1,8 @@
 package com.zust.client.view;
 
 import com.zust.client.UDP.ClientUDP;
+import com.zust.client.manager.ManagerPanel;
+import com.zust.common.bean.ChatBean;
 import com.zust.common.bean.DataFormat;
 
 import javax.swing.*;
@@ -70,6 +72,12 @@ class ChatPanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 tabbedPane.remove(tabbedPane.getSelectedIndex());
+                if(tabbedPane.getTabCount()==0){
+                    System.out.println("there is no friend on the chatPane!");
+                    ManagerPanel.delete("chatPanel");
+                    ChatPane.frame.dispose();
+
+                }
             }
         });
         jp2.add(sendBtn);
@@ -88,9 +96,11 @@ class ChatPanel extends JPanel {
             showPanel.append(userName+"  "+date+":\r\n");
             showPanel.append("          "+editTextArea.getText()+"\r\n");
             String message=editTextArea.getText();
+            ChatBean chatBean=new ChatBean();
+            chatBean.setMessage(message);
 //            发送包：
             new ClientUDP();
-            DataFormat dataFormat = new DataFormat(fromId, toId, DataFormat.MESSAGE, message, System.currentTimeMillis());
+            DataFormat dataFormat = new DataFormat(fromId, toId, DataFormat.MESSAGE, chatBean, System.currentTimeMillis());
             ClientUDP.sendUdpMsg(dataFormat);
             editTextArea.setText("");
         }
@@ -100,7 +110,7 @@ class ChatPanel extends JPanel {
             showPanel.append(err+"\n");
         }
     }
-     public  void showMsg(String msg){
+    public  void showMsg(String msg){
         //        判断是否有消息：
         if(msg!=null){
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
