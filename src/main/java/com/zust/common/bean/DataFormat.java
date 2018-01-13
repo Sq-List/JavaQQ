@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 public class DataFormat implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+
 	//添加好友
 	public static final int ADD_FRIEND = 0;
 	//删除好友
