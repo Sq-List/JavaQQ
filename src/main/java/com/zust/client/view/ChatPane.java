@@ -80,7 +80,7 @@ public class ChatPane {
 		ImageIcon myImageIcon = createImageIcon(avatarSrc);
 		ChatPanel chatPanel= new ChatPanel(userName,toUserName,tp,fromId,id);
 		tp.addTab(toUserName,myImageIcon,chatPanel);
-		if(tp.getTabCount()==0){
+		if(tp.getTabCount()==1){
 			JPanel singleTabPanel=new SingleTabPanel(toUserName,myImageIcon,tp,0);
 			tp.setTabComponentAt(0, singleTabPanel);
 			singleTabPanel.setName(id.toString());
