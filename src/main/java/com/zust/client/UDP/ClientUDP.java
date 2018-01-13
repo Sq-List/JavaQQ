@@ -1,6 +1,5 @@
 package com.zust.client.UDP;
 
-import com.google.gson.Gson;
 import com.zust.client.controller.ClientController;
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.UdpMsg;
@@ -16,7 +15,7 @@ import java.util.Set;
 
 public class ClientUDP
 {
-	private static final String serverIp = "172.16.54.184";
+	private static final String serverIp = "127.0.0.1";
 	private static final Map<Integer, UdpMsg> udpMsgMap = new HashMap<Integer, UdpMsg>();
 	private static int udpId = 1;
 	//接收端的DatagramSocket

@@ -7,6 +7,7 @@ public class User implements Serializable
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
+	private String loginName;
 	private String userName;
 	private String password;
 	private String avatarSrc;
@@ -16,7 +17,8 @@ public class User implements Serializable
 		return status;
 	}
 
-	public void setStatus(Boolean status) {
+	public void setStatus(Boolean status)
+	{
 		this.status = status;
 	}
 
@@ -28,6 +30,16 @@ public class User implements Serializable
 	public void setId(Integer id)
 	{
 		this.id = id;
+	}
+
+	public String getLoginName()
+	{
+		return loginName;
+	}
+
+	public void setLoginName(String loginName)
+	{
+		this.loginName = loginName;
 	}
 
 	public String getUserName()

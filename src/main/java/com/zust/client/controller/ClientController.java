@@ -1,6 +1,5 @@
 package com.zust.client.controller;
 
-import com.google.gson.Gson;
 import com.zust.client.UDP.ClientUDP;
 import com.zust.client.manager.ManagerInfo;
 import com.zust.client.manager.ManagerPanel;
@@ -10,7 +9,6 @@ import com.zust.client.view.Login;
 import com.zust.client.view.Main;
 import com.zust.client.view.SearchPanel;
 import com.zust.common.bean.*;
-
 
 import java.awt.*;
 
@@ -132,6 +130,7 @@ public class ClientController implements Runnable
 		chatPanel.receiveMsg(chatBean.getMessage(),dataFormat.getToId());
 	}
 	public void changeStatus(){
+
 		UserStateBean userStateBean= (UserStateBean) dataFormat.getData();
 		ChatPane chatPanel=(ChatPane)ManagerPanel.get("chatPanel");
 		if(userStateBean.getUser().getStatus()){

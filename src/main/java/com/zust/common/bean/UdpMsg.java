@@ -7,6 +7,7 @@ import java.io.DataOutputStream;
 
 public class UdpMsg
 {
+	private static final long serialVersionUID = 1L;
 	public static final byte REQUEST = 0;
 	public static final byte CONFIRM = 1;
 
