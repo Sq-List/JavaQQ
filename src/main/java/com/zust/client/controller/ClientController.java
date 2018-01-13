@@ -2,10 +2,13 @@ package com.zust.client.controller;
 
 import com.google.gson.Gson;
 import com.zust.client.UDP.ClientUDP;
+import com.zust.client.manager.ManagerPanel;
 import com.zust.client.view.ChatPane;
 import com.zust.client.view.Login;
+import com.zust.common.bean.ChatBean;
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.User;
+import com.zust.common.bean.UserStateBean;
 
 
 import java.awt.*;
@@ -77,6 +80,7 @@ public class ClientController implements Runnable
 
 			case DataFormat.MESSAGE:
 				//TODO: 消息请求，最好写成方法
+				receiveMessage();
 				break;
 
 			case DataFormat.LOGIN:
@@ -89,6 +93,7 @@ public class ClientController implements Runnable
 
 			case DataFormat.USER_STATE:
 				//TODO: 其他用户上下线请求，最好写成方法
+				changeStatus();
 				break;
 		}
 	}
@@ -98,14 +103,17 @@ public class ClientController implements Runnable
 
 	}
 	public void receiveMessage(){
-//		getChatPanel.receiveMsg(dataFormat);
+		ChatBean chatBean= (ChatBean) dataFormat.getData();
+		ChatPane chatPanel=(ChatPane)ManagerPanel.get("chatPanel");
+		chatPanel.receiveMsg(chatBean.getMessage(),dataFormat.getToId());
 	}
 	public void changeStatus(){
-		User user= (User) dataFormat.getData();
-		if(user.isStatus()){
-//			getChatPanel.addOnlineFriend(user);
+		UserStateBean userStateBean= (UserStateBean) dataFormat.getData();
+		ChatPane chatPanel=(ChatPane)ManagerPanel.get("chatPanel");
+		if(userStateBean.getUser().isStatus()){
+			chatPanel.addOnlineFriend(userStateBean.getUser());
 		}else{
-//			getChatPanel.delteOfflineFriend(user.getId());
+			chatPanel.delteOfflineFriend(userStateBean.getUser().getId());
 		}
 
 	}
