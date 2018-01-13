@@ -1,9 +1,12 @@
 package com.zust.common.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by Zzzz on 2018/1/12.
  */
-public class DeleteFriendRequestBean {
+public class DeleteFriendRequestBean implements Serializable
+{
 
     private User asker;
 

@@ -1,17 +1,20 @@
 package com.zust.common.bean;
 
+import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Zzzz on 2018/1/12.
  */
-public class LoginBean {
+public class LoginBean implements Serializable
+{
 
     private int type;
 
     private User loginUser;
 
-    private List<User> friends;
+    private Map<Integer, User> friendMap;
 
     public int getType() {
         return type;
@@ -29,11 +32,13 @@ public class LoginBean {
         this.loginUser = loginUser;
     }
 
-    public List<User> getFriends() {
-        return friends;
-    }
+	public Map<Integer, User> getFriendMap()
+	{
+		return friendMap;
+	}
 
-    public void setFriends(List<User> friends) {
-        this.friends = friends;
-    }
+	public void setFriendMap(Map<Integer, User> friendMap)
+	{
+		this.friendMap = friendMap;
+	}
 }
