@@ -2,8 +2,13 @@ package com.zust.client.controller;
 
 import com.google.gson.Gson;
 import com.zust.client.UDP.ClientUDP;
+import com.zust.client.view.ChatPane;
 import com.zust.client.view.Login;
 import com.zust.common.bean.DataFormat;
+import com.zust.common.bean.User;
+
+
+import java.awt.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -90,20 +95,18 @@ public class ClientController implements Runnable
 
 	public void login()
 	{
-		try
-		{
-			new ClientUDP();
 
-			DataFormat dataFormat = new DataFormat(1, 0, DataFormat.LOGIN, new String[]{"你好"}, System.currentTimeMillis());
-			ClientUDP.sendUdpMsg(dataFormat);
+	}
+	public void receiveMessage(){
+//		getChatPanel.receiveMsg(dataFormat);
+	}
+	public void changeStatus(){
+		User user= (User) dataFormat.getData();
+		if(user.isStatus()){
+//			getChatPanel.addOnlineFriend(user);
+		}else{
+//			getChatPanel.delteOfflineFriend(user.getId());
 		}
-		catch (SocketException e)
-		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+
 	}
 }
