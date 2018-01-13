@@ -124,25 +124,29 @@ public class SearchPanel extends JFrame {
 					jLabelb.setBounds(130, 23+i*70, 100, 30);
 					jLabelc.setBounds(230, 23+i*70, 100, 30);
 					jButton.setBounds(350, 25+i*70, 60, 26);
-					jButton.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							try{
-								DataFormat dataFormat = new DataFormat();
-								dataFormat.setType(0);
-								AddFriendRequestBean addFriendRequestBean = new AddFriendRequestBean();
-								addFriendRequestBean.setType(0);
-								addFriendRequestBean.setUser(user);
-								dataFormat.setTime(System.currentTimeMillis());
-								dataFormat.setFromId(ManagerInfo.getUser().getId());
-								dataFormat.setToId(user.getId());
-								dataFormat.setData(addFriendRequestBean);
-								ClientUDP.sendUdpMsg(dataFormat);
-							}catch (Exception exception){
-								exception.printStackTrace();
+					if(user.getStatus() == true){
+						jButton.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								try{
+									DataFormat dataFormat = new DataFormat();
+									dataFormat.setType(0);
+									AddFriendRequestBean addFriendRequestBean = new AddFriendRequestBean();
+									addFriendRequestBean.setType(0);
+									addFriendRequestBean.setUser(user);
+									dataFormat.setTime(System.currentTimeMillis());
+									dataFormat.setFromId(ManagerInfo.getUser().getId());
+									dataFormat.setToId(user.getId());
+									dataFormat.setData(addFriendRequestBean);
+									ClientUDP.sendUdpMsg(dataFormat);
+								}catch (Exception exception){
+									exception.printStackTrace();
+								}
 							}
-						}
-					});
+						});
+					}else{
+						jButton.setText("不在线");
+					}
 					jLabeld.setBounds(0,70+i*70,500,1);
 					jLabeld.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.lightGray), BorderFactory.createEmptyBorder(1,1,1,1)));
 					jPaneltest.add(jLabela);

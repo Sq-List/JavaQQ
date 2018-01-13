@@ -1,5 +1,6 @@
 package com.zust.server.controller;
 
+import com.zust.common.bean.AddFriendRequestBean;
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.LoginBean;
 import com.zust.common.bean.User;
@@ -77,7 +78,7 @@ public class ServerController implements Runnable
 		switch (dataFormat.getType())
 		{
 			case DataFormat.ADD_FRIEND:
-				//TODO: 添加好友请求，最好写成方法
+				addFriend();
 				break;
 
 			case DataFormat.SEARCH_FRIEND:
@@ -85,7 +86,7 @@ public class ServerController implements Runnable
 				break;
 
 			case DataFormat.DELETE_FRIEND:
-				//TODO: 删除好友请求，最好写成方法
+				deleteFriend();
 				break;
 
 			case DataFormat.MESSAGE:
@@ -177,4 +178,36 @@ public class ServerController implements Runnable
 			e.printStackTrace();
 		}
 	}
+
+	public void addFriend(){
+		AddFriendRequestBean addFriendRequestBean = (AddFriendRequestBean) dataFormat.getData();
+		User user = addFriendRequestBean.getUser();
+		if (addFriendRequestBean.getType() == 0){
+			DataFormat respDataFormat = friendService.addFriendRequest(dataFormat);
+			try {
+				ServerUDP.sendUdpMsg(respDataFormat);
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+		}else {
+			List<DataFormat> dataFormatList = friendService.sendRequestResult(dataFormat);
+			try{
+				ServerUDP.sendUdpMsg(dataFormatList.get(0));
+				ServerUDP.sendUdpMsg(dataFormatList.get(1));
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void deleteFriend(){
+		List<DataFormat> dataFormatList = friendService.deleteFriend(dataFormat);
+		try{
+			ServerUDP.sendUdpMsg(dataFormatList.get(0));
+			ServerUDP.sendUdpMsg(dataFormatList.get(1));
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
 }

@@ -68,4 +68,9 @@
       berequest_user_Id = #{berequestUserId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <delete id="deleteByBothId">
+    DELETE FROM friend WHERE (request_user_id = #{idone} AND berequest_user_Id = #{idtwo}) OR (request_user_id = #{idtwo} AND berequest_user_Id = #{idone});
+  </delete>
+
 </mapper>

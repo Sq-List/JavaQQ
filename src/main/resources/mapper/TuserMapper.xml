@@ -152,4 +152,9 @@
 		ORDER BY
 			`status` DESC
 	</select>
+
+    <select id="selectUserById" resultType="com.zust.server.entity.Tuser">
+        SELECT * FROM USER WHERE id = #{id};
+    </select>
+
 </mapper>

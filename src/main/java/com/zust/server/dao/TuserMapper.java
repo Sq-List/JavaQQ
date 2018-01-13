@@ -31,8 +31,12 @@ public interface TuserMapper {
 
 	/**
 	 * 根据昵称进行搜索
-	 * @param tuser
+	 * @param info
 	 * @return
 	 */
 	List<Tuser> selectUserByNickName(String info);
+
+    List<Tuser> selectFriendByUser(Tuser tuser);
+
+    Tuser selectUserById(int id);
 }
