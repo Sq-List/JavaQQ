@@ -7,10 +7,16 @@
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="avatar_src" jdbcType="VARCHAR" property="avatarSrc" />
+    <result column="gender" jdbcType="VARCHAR" property="gender" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="birthday" jdbcType="VARCHAR" property="birthday" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="intro" jdbcType="VARCHAR" property="intro" />
     <result column="status" jdbcType="BIT" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, login_name, user_name, password, avatar_src, status
+    id, login_name, user_name, password, avatar_src, gender, age, birthday, address, 
+    intro, status
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -24,11 +30,13 @@
   </delete>
   <insert id="insert" parameterType="com.zust.server.entity.Tuser">
     insert into user (id, login_name, user_name, 
-      password, avatar_src, status
-      )
+      password, avatar_src, gender, 
+      age, birthday, address, 
+      intro, status)
     values (#{id,jdbcType=INTEGER}, #{loginName,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{avatarSrc,jdbcType=VARCHAR}, #{status,jdbcType=BIT}
-      )
+      #{password,jdbcType=VARCHAR}, #{avatarSrc,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{age,jdbcType=INTEGER}, #{birthday,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{intro,jdbcType=VARCHAR}, #{status,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.zust.server.entity.Tuser">
     insert into user
@@ -47,6 +55,21 @@
       </if>
       <if test="avatarSrc != null">
         avatar_src,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="intro != null">
+        intro,
       </if>
       <if test="status != null">
         status,
@@ -68,6 +91,21 @@
       <if test="avatarSrc != null">
         #{avatarSrc,jdbcType=VARCHAR},
       </if>
+      <if test="gender != null">
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        #{intro,jdbcType=VARCHAR},
+      </if>
       <if test="status != null">
         #{status,jdbcType=BIT},
       </if>
@@ -88,6 +126,21 @@
       <if test="avatarSrc != null">
         avatar_src = #{avatarSrc,jdbcType=VARCHAR},
       </if>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null">
+        intro = #{intro,jdbcType=VARCHAR},
+      </if>
       <if test="status != null">
         status = #{status,jdbcType=BIT},
       </if>
@@ -100,63 +153,83 @@
       user_name = #{userName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       avatar_src = #{avatarSrc,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
       status = #{status,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
 	<select id="selectByUsernameAndPassword" resultMap="BaseResultMap">
 		SELECT
-			*
+		*
 		FROM
-			user
+		user
 		WHERE
-			user.login_name = #{loginName}
+		user.login_name = #{loginName}
 		AND
-			user.password = #{password}
+		user.password = #{password}
 	</select>
 
 	<select id="selectFriendByUser" resultMap="BaseResultMap">
 		SELECT
-			*
+		*
 		FROM
-			`user`
+		`user`
 		WHERE
-			`user`.id IN (
-					SELECT
-						friend.request_user_id
-					FROM
-						friend
-					WHERE
-						friend.berequest_user_Id = #{tuser.id}
-				UNION
-					SELECT
-						friend.berequest_user_Id
-					FROM
-						friend
-					WHERE
-						friend.request_user_id = #{tuser.id}
-			)
-			<if test="flag">
-				AND
-					`user`.status = 1
-			</if>
+		`user`.id IN (
+		SELECT
+		friend.request_user_id
+		FROM
+		friend
+		WHERE
+		friend.berequest_user_Id = #{tuser.id}
+		UNION
+		SELECT
+		friend.berequest_user_Id
+		FROM
+		friend
+		WHERE
+		friend.request_user_id = #{tuser.id}
+		)
+		<if test="flag">
+			AND
+			`user`.status = 1
+		</if>
 	</select>
 
 	<select id="selectUserByNickName" resultMap="BaseResultMap">
 		SELECT
-			*
+		*
 		FROM
-			`user`
+		`user`
 		WHERE
-			`user`.user_name LIKE '%${userName}%'
-			AND
-			`user`.id != ${id}
+		`user`.user_name LIKE '%${userName}%'
+		AND
+		`user`.id != ${id}
+		AND
+		`user`.id NOT IN (
+		SELECT
+		friend.request_user_id
+		FROM
+		friend
+		WHERE
+		friend.berequest_user_Id = ${id}
+		UNION
+		SELECT
+		friend.berequest_user_Id
+		FROM
+		friend
+		WHERE
+		friend.request_user_id = ${id}
+		)
 		ORDER BY
-			`status` DESC
+		`status` DESC
 	</select>
 
-    <select id="selectUserById" resultType="com.zust.server.entity.Tuser">
-        SELECT * FROM USER WHERE id = #{id};
-    </select>
-
+	<select id="selectUserById" resultType="com.zust.server.entity.Tuser">
+		SELECT * FROM USER WHERE id = #{id};
+	</select>
 </mapper>

@@ -18,25 +18,11 @@ public interface TuserMapper {
 
     int updateByPrimaryKey(Tuser record);
 
-    Tuser selectByUsernameAndPassword(Tuser tuser);
+	Tuser selectByUsernameAndPassword(Tuser tuser);
 
-	/**
-	 * flag为false时，搜索全部好友
-	 * flag为true时，搜索在线好友
-	 * @param tuser
-	 * @param flag
-	 * @return
-	 */
-	List<Tuser> selectFriendByUser(@Param("tuser") Tuser tuser, @Param("flag") boolean flag);
+	List<Tuser> selectFriendByUser(@Param("tuser") Tuser tuser, @Param("flag") Boolean flag);
 
-	/**
-	 * 根据昵称进行搜索
-	 * @param info
-	 * @return
-	 */
 	List<Tuser> selectUserByNickName(Tuser tuser);
 
-    List<Tuser> selectFriendByUser(Tuser tuser);
-
-    Tuser selectUserById(int id);
+	Tuser selectUserById(int id);
 }

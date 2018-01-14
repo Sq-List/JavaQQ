@@ -51,20 +51,20 @@
 			<property name="enableSubPackages" value="false"/>
 		</javaClientGenerator>
 
-		<table tableName="friend" domainObjectName="Tfriend"
-		       enableCountByExample="false"
-		       enableUpdateByExample="false"
-		       enableDeleteByExample="false"
-		       enableSelectByExample="false"
-		       selectByExampleQueryId="false">
-		</table>
-		<table tableName="message" domainObjectName="Tmessage"
-		       enableCountByExample="false"
-		       enableUpdateByExample="false"
-		       enableDeleteByExample="false"
-		       enableSelectByExample="false"
-		       selectByExampleQueryId="false">
-		</table>
+		<!--<table tableName="friend" domainObjectName="Tfriend"-->
+		       <!--enableCountByExample="false"-->
+		       <!--enableUpdateByExample="false"-->
+		       <!--enableDeleteByExample="false"-->
+		       <!--enableSelectByExample="false"-->
+		       <!--selectByExampleQueryId="false">-->
+		<!--</table>-->
+		<!--<table tableName="message" domainObjectName="Tmessage"-->
+		       <!--enableCountByExample="false"-->
+		       <!--enableUpdateByExample="false"-->
+		       <!--enableDeleteByExample="false"-->
+		       <!--enableSelectByExample="false"-->
+		       <!--selectByExampleQueryId="false">-->
+		<!--</table>-->
 		<table tableName="user" domainObjectName="Tuser"
 		       enableCountByExample="false"
 		       enableUpdateByExample="false"

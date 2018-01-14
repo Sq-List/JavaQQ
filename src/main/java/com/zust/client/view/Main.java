@@ -39,7 +39,7 @@ public class Main extends JFrame
 		label2 = new JLabel();
 		label3 = new JLabel(ManagerInfo.getUser().getUserName());
 		label4 = new JLabel();
-		button1 = new JButton("搜索好友");
+		button1 = new JButton("个人信息");
 		button2 = new JButton("添加好友");
 		label5 = new JLabel();
 		label6 = new JLabel("made by niceteam",JLabel.CENTER);
@@ -64,6 +64,7 @@ public class Main extends JFrame
 		button1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				UserInfoFrame userInfoFrame = new UserInfoFrame(ManagerInfo.getUser());
 			}
 		});
 
@@ -170,6 +171,15 @@ public class Main extends JFrame
 								}
 							}
 						});
+						JMenuItem jMenuItem3 = new JMenuItem("查看信息");
+						jMenuItem3.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseReleased(MouseEvent e) {
+								User user = hashMap.get(idList.get(index));
+								UserInfoFrame userInfoFrame = new UserInfoFrame(user);
+							}
+						});
+						jPopupMenu.add(jMenuItem3);
 						jPopupMenu.add(jMenuItem2);
 						jPopupMenu.show(e.getComponent(), e.getX(), e.getY());
 					}

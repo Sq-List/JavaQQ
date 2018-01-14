@@ -6,7 +6,7 @@ package com.zust.client.view;
 public class Test {
 
     public static void main(String[] args){
-        new Main();
+//        new UserInfoFrame();
     }
 
 }
