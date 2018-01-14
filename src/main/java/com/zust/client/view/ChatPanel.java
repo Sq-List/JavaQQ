@@ -121,7 +121,7 @@ class ChatPanel extends JPanel {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date = df.format(new Date());
             showPanel.append("\n"+toUserName+" "+date+"：\n");
-            showPanel.append("         "+msg);
+            showPanel.append("         "+msg + "\n");
 			showPanel.setCaretPosition(showPanel.getText().length());
         }
 
