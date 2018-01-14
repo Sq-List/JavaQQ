@@ -101,8 +101,6 @@ class ChatPanel extends JPanel {
             String message=editTextArea.getText();
             ChatBean chatBean=new ChatBean();
             chatBean.setMessage(message);
-//            发送包：
-            new ClientUDP();
             DataFormat dataFormat = new DataFormat(fromId, toId, DataFormat.MESSAGE, chatBean, System.currentTimeMillis());
             ClientUDP.sendUdpMsg(dataFormat);
             editTextArea.setText("");

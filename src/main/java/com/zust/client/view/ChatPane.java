@@ -37,11 +37,11 @@ public class ChatPane {
 		tp.setTabPlacement(JTabbedPane.LEFT);
 // 往窗口添加myTabbedPane
 		frame = new JFrame("聊天窗口");
-		ImageIcon logo=new ImageIcon(PicturePath.class.getResource("image/logo.jpg"));
+		ImageIcon logo=new ImageIcon(PicturePath.class.getResource("/image/logo.jpg"));
 		logo.setImage(logo.getImage().getScaledInstance(25, 30,
 				Image.SCALE_DEFAULT));
 		frame.setIconImage(logo.getImage());
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.add(myTabbedPane);
 		frame.pack();
 		frame.setVisible(true);
