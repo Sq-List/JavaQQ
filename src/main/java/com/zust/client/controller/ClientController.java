@@ -139,12 +139,20 @@ public class ClientController implements Runnable
 	public void receiveMessage(){
 		ChatBean chatBean= (ChatBean) dataFormat.getData();
 		ChatPane chatPanel=(ChatPane)ManagerPanel.get("chatPanel");
-		chatPanel.receiveMsg(chatBean.getMessage(),dataFormat.getToId());
+		User user = ManagerInfo.getUserMap().get(dataFormat.getFromId());
+		if(chatPanel == null){
+			chatPanel = new ChatPane(user, ManagerInfo.getUser().getId(), ManagerInfo.getUser().getUserName());
+			chatPanel.receiveMsg(chatBean.getMessage(),dataFormat.getFromId());
+		}else {
+			chatPanel.addOnlineFriend(user);
+			chatPanel.receiveMsg(chatBean.getMessage(),dataFormat.getFromId());
+		}
 	}
 	public void changeStatus(){
 
 		UserStateBean userStateBean= (UserStateBean) dataFormat.getData();
 		ChatPane chatPanel=(ChatPane)ManagerPanel.get("chatPanel");
+
 		if (chatPanel != null)
 		{
 			if(userStateBean.getUser().getStatus()){
@@ -153,7 +161,6 @@ public class ClientController implements Runnable
 				chatPanel.delteOfflineFriend(userStateBean.getUser().getId());
 			}
 		}
-
 	}
 
 	public void resetFriendList(String message){
