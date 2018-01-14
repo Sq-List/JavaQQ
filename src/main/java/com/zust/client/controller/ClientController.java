@@ -216,7 +216,7 @@ public class ClientController implements Runnable
 			ManagerInfo.getUserMap().put(user.getId(), user);
 			resetFriendList(user.getUserName() + "上线了。");
 		}else{
-			ManagerInfo.getUserMap().remove(user.getId());
+			ManagerInfo.getUserMap().get(user.getId()).setStatus(false);
 			resetFriendList(user.getUserName() + "下线了。");
 		}
 	}
