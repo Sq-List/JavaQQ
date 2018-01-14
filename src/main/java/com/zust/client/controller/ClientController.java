@@ -195,6 +195,7 @@ public class ClientController implements Runnable
 		AddFriendRequestBean addFriendRequestBean = (AddFriendRequestBean) dataFormat.getData();
 		User user = addFriendRequestBean.getUser();
 		if(addFriendRequestBean.getType() == 1){
+			ManagerInfo.getUserMap().put(user.getId(), user);
 			resetFriendList("添加" + user.getUserName() + "成功。");
 		}else if(addFriendRequestBean.getType() == 2){
 			Main main = (Main) ManagerPanel.get("mainPanel");
