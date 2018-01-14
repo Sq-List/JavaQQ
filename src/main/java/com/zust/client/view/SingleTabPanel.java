@@ -94,7 +94,7 @@ class SingleTabPanel extends JPanel {
 	private class CloseButton extends JButton {
 		private ImageIcon icon;
 		public CloseButton(){
-			icon=new ImageIcon(PicturePath.class.getResource("image/close.png"));
+			icon=new ImageIcon(PicturePath.class.getResource("/image/close.png"));
 			icon.setImage(icon.getImage().getScaledInstance(15, 15,
 					Image.SCALE_DEFAULT));
 			setIcon(icon);

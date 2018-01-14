@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.net.SocketException;
+import java.util.Random;
 
 public class Login extends JFrame {
 //    private static final long serialVersionUID = -6788045638380819221L;
@@ -116,7 +117,11 @@ public class Login extends JFrame {
                     loginBean.setLoginUser(user);
                     loginBean.setType(0);
 
+					Random random = new Random();
+					int s = random.nextInt(1000000) % (1000000 - 100 + 1) + 100;
+
                     DataFormat dataFormat = new DataFormat();
+                    dataFormat.setFromId(s);
                     dataFormat.setType(DataFormat.LOGIN);
                     dataFormat.setData(loginBean);
 

@@ -145,10 +145,13 @@ public class ClientController implements Runnable
 
 		UserStateBean userStateBean= (UserStateBean) dataFormat.getData();
 		ChatPane chatPanel=(ChatPane)ManagerPanel.get("chatPanel");
-		if(userStateBean.getUser().getStatus()){
-			chatPanel.addOnlineFriend(userStateBean.getUser());
-		}else{
-			chatPanel.delteOfflineFriend(userStateBean.getUser().getId());
+		if (chatPanel != null)
+		{
+			if(userStateBean.getUser().getStatus()){
+				chatPanel.addOnlineFriend(userStateBean.getUser());
+			}else{
+				chatPanel.delteOfflineFriend(userStateBean.getUser().getId());
+			}
 		}
 
 	}

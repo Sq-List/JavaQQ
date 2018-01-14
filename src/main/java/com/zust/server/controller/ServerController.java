@@ -115,22 +115,30 @@ public class ServerController implements Runnable
 		DataFormat respDataFormat = userService.login(dataFormat);
 		try
 		{
-			ServerUDP.sendUdpMsg(respDataFormat);
+			//如果用户登录成功
+			User loginUser = ((LoginBean)respDataFormat.getData()).getLoginUser();
+			if (loginUser != null)
+			{
+				int senderUserId = loginUser.getId();
+				dataFormat.setFromId(senderUserId);
+				ServerUDP.addUserIp(senderUserId, senderAddress.getHostAddress());
+				ServerUDP.sendUdpMsg(respDataFormat);
+				sendUserStatus();
+			}
+			//如果用户登录失败
+			else
+			{
+				ServerUDP.addUserIp(dataFormat.getFromId(), senderAddress.getHostAddress());
+				ServerUDP.sendUdpMsg(respDataFormat);
+				ServerUDP.deleteUserIp(dataFormat.getFromId());
+			}
 		}
 		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 
-		//如果用户登录成功
-		User loginUser = ((LoginBean)respDataFormat.getData()).getLoginUser();
-		if (loginUser != null)
-		{
-			dataFormat.setFromId(loginUser.getId());
-			int senderUserId = dataFormat.getFromId();
-			ServerUDP.addUserIp(senderUserId, senderAddress.getHostAddress());
-			sendUserStatus();
-		}
+
 	}
 
 	public void quit()
