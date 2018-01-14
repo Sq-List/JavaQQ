@@ -104,7 +104,7 @@ public class ServerUDP
 //			System.out.println("循环中， msg信息：" + msg.getUdpId() + "已发送：" + msg.getCount());
 			if(msg.getCount() >= 3)
 			{
-				logger.info("***发送端---检测到发送给" + msg.getToId() + "丢失的消息" + msg.getUdpId());
+				logger.info("***发送端---检测到发送给" + userIpMap.get(msg.getToId()) + "的" + msg.getToId() + "丢失的消息" + msg.getUdpId());
 				it.remove();
 			}
 
@@ -118,7 +118,7 @@ public class ServerUDP
 					DatagramPacket dp = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(userIpMap.get(msg.getToId())), 2223);
 					dSender.send(dp);
 					msg.setCount(msg.getCount()+1);
-					logger.info("客户端--重发消息:"+msg.getUdpId() + ", 已发送：" + msg.getCount());
+					logger.info("客户端--重发消息:" + userIpMap.get(msg.getToId()) + "的" + msg.getUdpId() + ", 已发送：" + msg.getCount());
 				}
 				catch(Exception e)
 				{
