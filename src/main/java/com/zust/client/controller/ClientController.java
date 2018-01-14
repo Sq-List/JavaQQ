@@ -142,6 +142,7 @@ public class ClientController implements Runnable
 		User user = ManagerInfo.getUserMap().get(dataFormat.getFromId());
 		if(chatPanel == null){
 			chatPanel = new ChatPane(user, ManagerInfo.getUser().getId(), ManagerInfo.getUser().getUserName());
+			ManagerPanel.add("chatPanel", chatPanel);
 			chatPanel.receiveMsg(chatBean.getMessage(),dataFormat.getFromId());
 		}else {
 			chatPanel.addOnlineFriend(user);
@@ -216,7 +217,7 @@ public class ClientController implements Runnable
 			ManagerInfo.getUserMap().put(user.getId(), user);
 			resetFriendList(user.getUserName() + "上线了。");
 		}else{
-			ManagerInfo.getUserMap().remove(user.getId());
+			ManagerInfo.getUserMap().get(user.getId()).setStatus(false);
 			resetFriendList(user.getUserName() + "下线了。");
 		}
 	}
