@@ -58,6 +58,7 @@ class ChatPanel extends JPanel {
                 int k = e.getKeyCode();
                 if (k == e.VK_ENTER) {
                     sendMessage(fromId, toId);//发送数据
+					editTextArea.setText("");
                 }
             }
         });
@@ -119,7 +120,7 @@ class ChatPanel extends JPanel {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date = df.format(new Date());
             showPanel.append("\n"+toUserName+" "+date+"：\n");
-            showPanel.append("        "+msg);
+            showPanel.append("         "+msg);
         }
 
     }
