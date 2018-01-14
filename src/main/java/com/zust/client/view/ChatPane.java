@@ -45,7 +45,7 @@ public class ChatPane {
 		int width = 400;
 		int height = 700;
 		frame.setBounds((d.width - width) / 2, (d.height - height) / 2, width, height);
-		ImageIcon logo=new ImageIcon(PicturePath.class.getResource("/image/logo.jpg"));
+		ImageIcon logo=new ImageIcon(PicturePath.class.getResource("/image/logo1.jpg"));
 		logo.setImage(logo.getImage().getScaledInstance(25, 30,
 				Image.SCALE_DEFAULT));
 		frame.setIconImage(logo.getImage());

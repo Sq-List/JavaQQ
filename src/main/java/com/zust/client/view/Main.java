@@ -35,6 +35,10 @@ public class Main extends JFrame
 		setBounds((d.width - width) / 2, (d.height - height) / 2, width, height);
 		setResizable(false);
 		setTitle("FakeQQ");
+		ImageIcon logo=new ImageIcon(PicturePath.class.getResource("/image/logo1.jpg"));
+		logo.setImage(logo.getImage().getScaledInstance(25, 30,
+				Image.SCALE_DEFAULT));
+		setIconImage(logo.getImage());
 		labelpic = new JLabel();
 		label2 = new JLabel();
 		label3 = new JLabel(ManagerInfo.getUser().getUserName());
