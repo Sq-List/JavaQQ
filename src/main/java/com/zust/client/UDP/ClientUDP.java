@@ -15,7 +15,6 @@ import java.util.Set;
 
 public class ClientUDP
 {
-
 	private static final String serverIp = "172.16.54.184";
 
 	private static final Map<Integer, UdpMsg> udpMsgMap = new HashMap<Integer, UdpMsg>();
@@ -152,6 +151,7 @@ public class ClientUDP
 				ds.receive(recvPacket);
 				UdpMsg udpMsg = new UdpMsg(recvPacket.getData());
 
+				System.out.println("收到消息");
 				//数据包为确认类型
 				if (udpMsg.getType() == UdpMsg.CONFIRM)
 				{

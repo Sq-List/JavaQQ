@@ -112,9 +112,6 @@ public class ServerController implements Runnable
 
 	public void login()
 	{
-		int senderUserId = dataFormat.getFromId();
-		ServerUDP.addUserIp(senderUserId, senderAddress.getHostAddress());
-
 		DataFormat respDataFormat = userService.login(dataFormat);
 		try
 		{
@@ -130,6 +127,8 @@ public class ServerController implements Runnable
 		if (loginUser != null)
 		{
 			dataFormat.setFromId(loginUser.getId());
+			int senderUserId = dataFormat.getFromId();
+			ServerUDP.addUserIp(senderUserId, senderAddress.getHostAddress());
 			sendUserStatus();
 		}
 	}
