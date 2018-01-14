@@ -40,6 +40,10 @@ public class SearchPanel extends JFrame {
 		jPanel1 = new JPanel();
 		jPanel2 = new JPanel();
 		this.setLayout(null);
+		ImageIcon logo=new ImageIcon(PicturePath.class.getResource("/image/logo1.jpg"));
+		logo.setImage(logo.getImage().getScaledInstance(25, 30,
+				Image.SCALE_DEFAULT));
+		setIconImage(logo.getImage());
 		label1.setBounds(40, 10, 150, 40);
 		textField.setBounds(150, 16, 150, 26);
 		button1.setBounds(320, 16, 60, 26);
