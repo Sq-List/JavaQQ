@@ -124,9 +124,9 @@ public class ChatPane {
 		if(count == 0){
 			addOnlineFriend(ManagerInfo.getUserMap().get(toId));
 			//聊天面板添加聊天信息：
-			ChatPanel chatPanel=(ChatPanel)tp.getComponentAt(tp.getTabCount());
+			ChatPanel chatPanel=(ChatPanel)tp.getComponentAt(tp.getTabCount()-1);
 			chatPanel.showMsg(message);
-			SingleTabPanel singleTabPanel=(SingleTabPanel)tp.getTabComponentAt(tp.getTabCount());
+			SingleTabPanel singleTabPanel=(SingleTabPanel)tp.getTabComponentAt(tp.getTabCount()-1);
 			singleTabPanel.changeMsgNum("add");
 		}
 

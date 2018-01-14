@@ -107,7 +107,7 @@ public class SearchPanel extends JFrame {
 					jLabela.setIcon(imageIcon);
 					jLabelb.setBounds(130, 23+i*70, 100, 30);
 					jLabelc.setBounds(230, 23+i*70, 100, 30);
-					jButton.setBounds(350, 25+i*70, 60, 26);
+					jButton.setBounds(350, 25+i*70, 100, 26);
 					if(user.getStatus() == true){
 						jButton.addActionListener(new ActionListener() {
 							@Override
@@ -123,6 +123,7 @@ public class SearchPanel extends JFrame {
 									dataFormat.setToId(user.getId());
 									dataFormat.setData(addFriendRequestBean);
 									ClientUDP.sendUdpMsg(dataFormat);
+									JOptionPane.showMessageDialog(null, "请求已发出。", "提示", JOptionPane.INFORMATION_MESSAGE);
 								}catch (Exception exception){
 									exception.printStackTrace();
 								}
