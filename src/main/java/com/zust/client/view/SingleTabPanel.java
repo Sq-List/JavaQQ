@@ -49,7 +49,7 @@ class SingleTabPanel extends JPanel {
 		setOpaque(false);
 		singleTabPanel=this;
 		if(singleTabPanel==tabbedPane.getSelectedComponent()){
-			changeMsgNum("delete");
+			singleTabPanel.changeMsgNum("delete");
 		}
 		singleTabPanel.addMouseListener(new MouseAdapter() {
 			@Override
