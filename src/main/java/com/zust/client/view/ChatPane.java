@@ -53,6 +53,7 @@ public class ChatPane {
 		frame.add(myTabbedPane);
 		frame.pack();
 		frame.setVisible(true);
+		frame.setLocationRelativeTo(null);
 		frame.addWindowListener(new WindowAdapter()
 		{
 
