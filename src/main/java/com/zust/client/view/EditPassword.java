@@ -79,5 +79,7 @@ public class EditPassword extends JFrame{
 		add(againPswText);
 		add(saveBtn);
 		add(cancelBtn);
+
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 }

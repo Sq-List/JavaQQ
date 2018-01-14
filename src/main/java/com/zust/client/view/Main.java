@@ -64,6 +64,7 @@ public class Main extends JFrame
 		button1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				UserInfoFrame userInfoFrame = new UserInfoFrame(ManagerInfo.getUser());
 			}
 		});
 
@@ -170,6 +171,15 @@ public class Main extends JFrame
 								}
 							}
 						});
+						JMenuItem jMenuItem3 = new JMenuItem("查看信息");
+						jMenuItem3.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseReleased(MouseEvent e) {
+								User user = hashMap.get(idList.get(index));
+								UserInfoFrame userInfoFrame = new UserInfoFrame(user);
+							}
+						});
+						jPopupMenu.add(jMenuItem3);
 						jPopupMenu.add(jMenuItem2);
 						jPopupMenu.show(e.getComponent(), e.getX(), e.getY());
 					}

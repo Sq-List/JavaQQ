@@ -11,6 +11,16 @@ public class Tuser {
 
     private String avatarSrc;
 
+    private String gender;
+
+    private Integer age;
+
+    private String birthday;
+
+    private String address;
+
+    private String intro;
+
     private Boolean status;
 
     public Integer getId() {
@@ -51,6 +61,46 @@ public class Tuser {
 
     public void setAvatarSrc(String avatarSrc) {
         this.avatarSrc = avatarSrc == null ? null : avatarSrc.trim();
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender == null ? null : gender.trim();
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday == null ? null : birthday.trim();
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro == null ? null : intro.trim();
     }
 
     public Boolean getStatus() {

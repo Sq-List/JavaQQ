@@ -11,6 +11,11 @@ public class User implements Serializable
 	private String userName;
 	private String password;
 	private String avatarSrc;
+	private String gender;
+	private Integer age;
+	private String birthday;
+	private String address;
+	private String intro;
 	private Boolean status;
 
 	public Boolean getStatus() {
@@ -70,5 +75,60 @@ public class User implements Serializable
 	public void setAvatarSrc(String avatarSrc)
 	{
 		this.avatarSrc = avatarSrc;
+	}
+
+	public static long getSerialVersionUID()
+	{
+		return serialVersionUID;
+	}
+
+	public String getGender()
+	{
+		return gender;
+	}
+
+	public void setGender(String gender)
+	{
+		this.gender = gender;
+	}
+
+	public Integer getAge()
+	{
+		return age;
+	}
+
+	public void setAge(Integer age)
+	{
+		this.age = age;
+	}
+
+	public String getBirthday()
+	{
+		return birthday;
+	}
+
+	public void setBirthday(String birthday)
+	{
+		this.birthday = birthday;
+	}
+
+	public String getAddress()
+	{
+		return address;
+	}
+
+	public void setAddress(String address)
+	{
+		this.address = address;
+	}
+
+	public String getIntro()
+	{
+		return intro;
+	}
+
+	public void setIntro(String intro)
+	{
+		this.intro = intro;
 	}
 }
