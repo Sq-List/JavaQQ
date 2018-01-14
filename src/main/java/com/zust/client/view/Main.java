@@ -39,7 +39,7 @@ public class Main extends JFrame
 		label2 = new JLabel();
 		label3 = new JLabel(ManagerInfo.getUser().getUserName());
 		label4 = new JLabel();
-		button1 = new JButton("搜索好友");
+		button1 = new JButton("个人信息");
 		button2 = new JButton("添加好友");
 		label5 = new JLabel();
 		label6 = new JLabel("made by niceteam",JLabel.CENTER);
