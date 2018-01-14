@@ -35,13 +35,17 @@ public class ChatPane {
 		tp = new JTabbedPane();
 		addOnlineFriend(firstfriend);
 
-		tp.setPreferredSize(new Dimension(500,500));
+		tp.setPreferredSize(new Dimension(600,500));
 		myTabbedPane.add(tp);
 		tp.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		tp.setTabPlacement(JTabbedPane.LEFT);
 // 往窗口添加myTabbedPane
 		frame = new JFrame("聊天窗口");
-		ImageIcon logo=new ImageIcon(PicturePath.class.getResource("/image/logo.jpg"));
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		int width = 400;
+		int height = 700;
+		frame.setBounds((d.width - width) / 2, (d.height - height) / 2, width, height);
+		ImageIcon logo=new ImageIcon(PicturePath.class.getResource("/image/logo1.jpg"));
 		logo.setImage(logo.getImage().getScaledInstance(25, 30,
 				Image.SCALE_DEFAULT));
 		frame.setIconImage(logo.getImage());

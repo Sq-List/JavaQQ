@@ -127,6 +127,10 @@ public class UserInfoFrame extends JFrame{
 		address.setBounds(80,125,200,30);
 		address.setFont(new Font("微软雅黑",0,15));
 		
+		ImageIcon logo=new ImageIcon(PicturePath.class.getResource("/image/logo1.jpg"));
+		logo.setImage(logo.getImage().getScaledInstance(25, 30,
+				Image.SCALE_DEFAULT));
+		setIconImage(logo.getImage());
 //		introduce = new JLabel("自我介绍：");
 //		introduce.setBounds(50,160,80,30);
 //		introduce.setFont(new Font("微软雅黑",0,15));
