@@ -100,6 +100,7 @@ public class ChatPane {
 		String toUserName=friend.getUserName();
 		ImageIcon myImageIcon = createImageIcon(avatarSrc);
 		ChatPanel chatPanel= new ChatPanel(userName,toUserName,tp,fromId,id);
+		Boolean hasFriendFlag=false;
 		if (tp!=null){
 			if(tp.getTabCount()==0){
 				tp.addTab(toUserName,myImageIcon,chatPanel);
@@ -110,12 +111,17 @@ public class ChatPane {
 			else{
 				for(int i=0;i<tp.getTabCount();i++){
 					if(String.valueOf(id).equals(tp.getTabComponentAt(i).getName())) {
-						tp.addTab(toUserName,myImageIcon,chatPanel);
-						JPanel singleTabPanel=new SingleTabPanel(toUserName,myImageIcon,tp,tp.getTabCount()-1);
-						tp.setTabComponentAt(tp.getTabCount()-1, singleTabPanel);
-						singleTabPanel.setName(id.toString());
-						System.out.println("userId="+id+" is online and added to panel!!!");
+						hasFriendFlag=true;
+						break;
 					}
+				}
+				if(!hasFriendFlag){
+					tp.addTab(toUserName,myImageIcon,chatPanel);
+					JPanel singleTabPanel=new SingleTabPanel(toUserName,myImageIcon,tp,tp.getTabCount()-1);
+					tp.setTabComponentAt(tp.getTabCount()-1, singleTabPanel);
+					singleTabPanel.setName(id.toString());
+					System.out.println("userId="+id+" is online and added to panel!!!");
+
 				}
 
 			}
