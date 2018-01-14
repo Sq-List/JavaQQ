@@ -1,6 +1,7 @@
 package com.zust.client.view;
 
 import com.zust.client.manager.ManagerPanel;
+import com.zust.common.tool.PicturePath;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,7 +40,7 @@ public class Register extends JFrame{
         this.setLayout(null);
         this.setBounds(0, 0, 400, 320);
         //设置窗体的图标
-        Image img0 = new ImageIcon("qq/img/logo.png").getImage();
+        Image img0 = new ImageIcon(PicturePath.getPicturePath("/image/logo1.jpg")).getImage();
         this.setIconImage(img0);
         //窗体大小不能改变
         this.setResizable(false);
@@ -62,13 +63,13 @@ public class Register extends JFrame{
         ground.setBounds(0, 0, 400, 320);
 
         //设置背景色
-        ImageIcon img1 = new ImageIcon("qq/img/background.jpeg");
+        ImageIcon img1 = new ImageIcon(PicturePath.getPicturePath("/image/background.jpeg"));
         img1.setImage(img1.getImage().getScaledInstance(400,350,Image.SCALE_DEFAULT));
         ground.setIcon(img1);
 
         //qq头像设定
         profilePic = new JLabel();
-        ImageIcon img2 = new ImageIcon("qq/img/logo.jpg");
+        ImageIcon img2 = new ImageIcon(PicturePath.getPicturePath("/image/logo1.jpg"));
         profilePic.setBounds(150, 10, 100, 100);
         img2.setImage(img2.getImage().getScaledInstance(100,100,Image.SCALE_DEFAULT));
         profilePic.setIcon(img2);
