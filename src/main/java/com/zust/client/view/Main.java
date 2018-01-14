@@ -127,6 +127,7 @@ public class Main extends JFrame
 						ChatPane chatPanel = (ChatPane) ManagerPanel.get("chatPanel");
 						if(chatPanel == null){
 							chatPanel = new ChatPane(user, ManagerInfo.getUser().getId(), ManagerInfo.getUser().getUserName());
+							ManagerPanel.add("chatPanel", chatPanel);
 						}else {
 							chatPanel.addOnlineFriend(user);
 						}
@@ -141,6 +142,7 @@ public class Main extends JFrame
 									ChatPane chatPanel = (ChatPane) ManagerPanel.get("chatPanel");
 									if(chatPanel == null){
 										chatPanel = new ChatPane(user, ManagerInfo.getUser().getId(), ManagerInfo.getUser().getUserName());
+										ManagerPanel.add("chatPanel", chatPanel);
 									}else {
 										chatPanel.addOnlineFriend(user);
 									}
@@ -263,6 +265,7 @@ public class Main extends JFrame
 								ChatPane chatPanel = (ChatPane) ManagerPanel.get("chatPanel");
 								if(chatPanel == null){
 									chatPanel = new ChatPane(user, ManagerInfo.getUser().getId(), ManagerInfo.getUser().getUserName());
+									ManagerPanel.add("chatPanel", chatPanel);
 								}else {
 									chatPanel.addOnlineFriend(user);
 								}
@@ -277,6 +280,7 @@ public class Main extends JFrame
 											ChatPane chatPanel = (ChatPane) ManagerPanel.get("chatPanel");
 											if(chatPanel == null){
 												chatPanel = new ChatPane(user, ManagerInfo.getUser().getId(), ManagerInfo.getUser().getUserName());
+												ManagerPanel.add("chatPanel", chatPanel);
 											}else {
 												chatPanel.addOnlineFriend(user);
 											}

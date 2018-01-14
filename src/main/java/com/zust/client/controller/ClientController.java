@@ -142,9 +142,9 @@ public class ClientController implements Runnable
 		User user = ManagerInfo.getUserMap().get(dataFormat.getFromId());
 		if(chatPanel == null){
 			chatPanel = new ChatPane(user, ManagerInfo.getUser().getId(), ManagerInfo.getUser().getUserName());
+			ManagerPanel.add("chatPanel", chatPanel);
 			chatPanel.receiveMsg(chatBean.getMessage(),dataFormat.getFromId());
 		}else {
-			chatPanel.addOnlineFriend(user);
 			chatPanel.receiveMsg(chatBean.getMessage(),dataFormat.getFromId());
 		}
 	}

@@ -29,9 +29,9 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zust.server.entity.Tmessage">
-    insert into message (id, send_id, recive_id, 
+    insert into message (send_id, recive_id,
       time, message)
-    values (#{id,jdbcType=INTEGER}, #{sendId,jdbcType=INTEGER}, #{reciveId,jdbcType=INTEGER}, 
+    values (#{sendId,jdbcType=INTEGER}, #{reciveId,jdbcType=INTEGER},
       #{time,jdbcType=TIMESTAMP}, #{message,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zust.server.entity.Tmessage">

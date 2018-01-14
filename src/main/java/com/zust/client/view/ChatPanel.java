@@ -98,7 +98,7 @@ class ChatPanel extends JPanel {
         {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date = df.format(new Date());
-            showPanel.append(userName+"  "+date+":\r\n");
+            showPanel.append("\n"+userName+"  "+date+":\r\n");
             showPanel.append("          "+editTextArea.getText()+"\r\n");
             String message=editTextArea.getText();
             ChatBean chatBean=new ChatBean();
@@ -118,7 +118,7 @@ class ChatPanel extends JPanel {
         if(msg!=null){
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String date = df.format(new Date());
-            showPanel.append(toUserName+" "+date+"：\n");
+            showPanel.append("\n"+toUserName+" "+date+"：\n");
             showPanel.append("        "+msg);
         }
 
