@@ -48,8 +48,8 @@ class SingleTabPanel extends JPanel {
 		setBackground(new Color(200, 221, 242));
 		setOpaque(false);
 		singleTabPanel=this;
-		if(this==tabbedPane.getComponent(tabbedPane.getSelectedIndex())){
-			changeMsgNum("delete");
+		if(singleTabPanel==tabbedPane.getSelectedComponent()){
+			singleTabPanel.changeMsgNum("delete");
 		}
 		singleTabPanel.addMouseListener(new MouseAdapter() {
 			@Override
