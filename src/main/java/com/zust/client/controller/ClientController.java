@@ -75,8 +75,12 @@ public class ClientController implements Runnable
 		switch (dataFormat.getType())
 		{
 			case DataFormat.ADD_FRIEND:
-				addRequest();
-				getAddFeedBack();
+				AddFriendRequestBean addFriendRequestBean = (AddFriendRequestBean) dataFormat.getData();
+				if (addFriendRequestBean.getType() == 0){
+					addRequest();
+				}else {
+					getAddFeedBack();
+				}
 				break;
 
 			case DataFormat.SEARCH_FRIEND:
@@ -112,15 +116,16 @@ public class ClientController implements Runnable
 		LoginBean loginBean = (LoginBean) dataFormat.getData();
 		if (loginBean.getType() == 1)
 		{
-			Main main = new Main();
-			//添加好友列表面板
-			ManagerPanel.add("mainPanel", main);
 
 			Login login = (Login) ManagerPanel.get("loginPanel");
 			ManagerPanel.delete("loginPanel");
 
 			ManagerInfo.setUser(loginBean.getLoginUser());
 			ManagerInfo.setUserMap(loginBean.getFriendMap());
+
+			//添加好友列表面板
+			Main main = new Main();
+			ManagerPanel.add("mainPanel", main);
 
 			//关闭登陆面板
 			login.dispose();
