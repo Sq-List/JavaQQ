@@ -37,11 +37,11 @@ public class FriendServiceImpl implements FriendService
         BeanUtils.copyProperties(tuser, userBack);
         DataFormat dataFormatBack = new DataFormat();
         AddFriendRequestBean addFriendRequestBeanBack = new AddFriendRequestBean();
-        addFriendRequestBean.setType(0);
-        addFriendRequestBean.setUser(userBack);
+		addFriendRequestBeanBack.setType(0);
+		addFriendRequestBeanBack.setUser(userBack);
         dataFormatBack.setTime(System.currentTimeMillis());
         dataFormatBack.setFromId(0);
-        dataFormatBack.setToId(user.getId());
+        dataFormatBack.setToId(dataFormat.getToId());
         dataFormatBack.setData(addFriendRequestBeanBack);
         dataFormatBack.setType(DataFormat.ADD_FRIEND);
         return dataFormatBack;

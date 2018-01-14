@@ -197,7 +197,6 @@ public class ServerController implements Runnable
 
 	public void addFriend(){
 		AddFriendRequestBean addFriendRequestBean = (AddFriendRequestBean) dataFormat.getData();
-		User user = addFriendRequestBean.getUser();
 		if (addFriendRequestBean.getType() == 0){
 			DataFormat respDataFormat = friendService.addFriendRequest(dataFormat);
 			try {
