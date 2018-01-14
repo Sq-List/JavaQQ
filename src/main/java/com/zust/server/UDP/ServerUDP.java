@@ -4,21 +4,22 @@ package com.zust.server.UDP;
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.UdpMsg;
 import com.zust.server.controller.ServerController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.*;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ServerUDP
 {
-	private static final Map<Integer, String> userIpMap = new HashMap<Integer, String>();
-	private static final Map<Integer, UdpMsg> udpMsgMap = new HashMap<Integer, UdpMsg>();
-	private static int udpId = 1;
+	private static final Logger logger = LoggerFactory.getLogger(ServerUDP.class);
+
+	private static final Map<Integer, String> userIpMap = new HashMap<>();
+	private static final Map<String, UdpMsg> udpMsgMap = new HashMap<>();
+	private final Map<String, Boolean> reviceUdpMsg = new HashMap<>();
 	//接收端的DatagramSocket
 	private DatagramSocket ds;
 
@@ -40,7 +41,8 @@ public class ServerUDP
 		ObjectOutputStream oos = new ObjectOutputStream(baos);
 		oos.writeObject(dataFormat);
 
-		UdpMsg udpMsg = new UdpMsg(udpId++, UdpMsg.REQUEST, dataFormat.getToId(), System.currentTimeMillis(), baos.toByteArray());
+		String udpId = UUID.randomUUID().toString();
+		UdpMsg udpMsg = new UdpMsg(udpId, UdpMsg.REQUEST, dataFormat.getToId(), System.currentTimeMillis(), baos.toByteArray());
 		byte[] buffer = udpMsg.toByte();
 
 		//发送数据包给目标对象
@@ -52,7 +54,7 @@ public class ServerUDP
 
 			//将数据包放入消息队列
 			udpMsgMap.put(udpMsg.getUdpId(), udpMsg);
-			System.out.println("发送端-已发送req:" + udpMsg.getUdpId() + "的请求");
+			logger.info("发送端-已发送req:" + udpMsg.getUdpId() + "的请求");
 		}
 
 		if (oos != null)
@@ -92,17 +94,17 @@ public class ServerUDP
 	//重传方法
 	public void resendUdpMsg()
 	{
-		Set<Integer> keyset = udpMsgMap.keySet();
-		Iterator<Integer> it = keyset.iterator();
+		Set<String> keyset = udpMsgMap.keySet();
+		Iterator<String> it = keyset.iterator();
 		while(it.hasNext())
 		{
-			Integer key=it.next();
+			String key=it.next();
 			UdpMsg msg = udpMsgMap.get(key);
 
 //			System.out.println("循环中， msg信息：" + msg.getUdpId() + "已发送：" + msg.getCount());
 			if(msg.getCount() >= 3)
 			{
-				System.out.println("***发送端---检测到丢失的消息" + msg.getUdpId());
+				logger.info("***发送端---检测到发送给" + msg.getToId() + "丢失的消息" + msg.getUdpId());
 				it.remove();
 			}
 
@@ -116,7 +118,7 @@ public class ServerUDP
 					DatagramPacket dp = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(userIpMap.get(msg.getToId())), 2223);
 					dSender.send(dp);
 					msg.setCount(msg.getCount()+1);
-					System.out.println("客户端--重发消息:"+msg.getUdpId() + ", 已发送：" + msg.getCount());
+					logger.info("客户端--重发消息:"+msg.getUdpId() + ", 已发送：" + msg.getCount());
 				}
 				catch(Exception e)
 				{
@@ -141,7 +143,7 @@ public class ServerUDP
 	//接收方法
 	public void reciveUdpMsg()
 	{
-		System.out.println("接收端-接收线程启动...");
+		logger.info("接收端-接收线程启动...");
 		while(true)
 		{
 			try
@@ -152,35 +154,38 @@ public class ServerUDP
 				DatagramPacket recvPacket = new DatagramPacket(recvData,recvData.length);
 				ds.receive(recvPacket);
 				UdpMsg udpMsg = new UdpMsg(recvPacket.getData());
+				InetAddress inetAddress = recvPacket.getAddress();
 
 				//数据包为确认类型
 				if (udpMsg.getType() == UdpMsg.CONFIRM)
 				{
 					if (udpMsgMap.get(udpMsg.getUdpId()) != null)
 					{
-						System.out.println("接收端-已接收req:" + udpMsg.getUdpId() + "的确认");
+						logger.info("接收端-已接收来自" + inetAddress.getHostAddress() + "的req:" + udpMsg.getUdpId() + "的确认");
 						udpMsgMap.remove(udpMsg.getUdpId());
 					}
 				}
 				//收到请求包，首先发送确认包
 				else
 				{
-					UdpMsg resp = new UdpMsg(udpMsg.getUdpId(), UdpMsg.CONFIRM);
+					if (reviceUdpMsg.get(udpMsg.getUdpId()) == null)
+					{
+						reviceUdpMsg.put(udpMsg.getUdpId(), true);
+						UdpMsg resp = new UdpMsg(udpMsg.getUdpId(), UdpMsg.CONFIRM);
 
-					byte[] data = resp.toByte();
-					System.out.println("接收端-已收到resp:" + resp.getUdpId() + "的请求");
-					//声明一个新的端口的Socket
-					DatagramSocket dSender = new DatagramSocket();
-					//获取发送方的InetAddress
-					InetAddress inetAddress = recvPacket.getAddress();
-					System.out.println("接收端-resp:" + resp.getUdpId() + "来自" + inetAddress.getHostAddress());
-					DatagramPacket dp = new DatagramPacket(data, data.length, inetAddress, 2223);
-					dSender.send(dp);
+						byte[] data = resp.toByte();
+						logger.info("接收端-已收到resp:" + resp.getUdpId() + "来自" + inetAddress.getHostAddress() + "的请求");
+						//声明一个新的端口的Socket
+						DatagramSocket dSender = new DatagramSocket();
+						//获取发送方的InetAddress
+						DatagramPacket dp = new DatagramPacket(data, data.length, inetAddress, 2223);
+						dSender.send(dp);
 
-					System.out.println("接收端-已发送resp:" + resp.getUdpId() + "的应答");
+						logger.info("接收端-已发送resp:" + resp.getUdpId() + "的应答");
 
-					//交给其他线程处理数据库
-					new Thread(new ServerController(inetAddress, udpMsg.getData())).start();
+						//交给其他线程处理数据库
+						new Thread(new ServerController(inetAddress, udpMsg.getData())).start();
+					}
 				}
 			}
 			catch (IOException e)

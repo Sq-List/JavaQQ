@@ -12,7 +12,7 @@ public class UdpMsg
 	public static final byte CONFIRM = 1;
 
 	//udp的id
-	private int udpId;
+	private String udpId;
 	//消息的总长度
 	private int totalLength;
 	//消息的类型
@@ -27,7 +27,7 @@ public class UdpMsg
 	private byte[] data;
 
 	//声明UdpMsg时调用
-	public UdpMsg(int udpId, byte type, int toId, long time, byte[] data)
+	public UdpMsg(String udpId, byte type, int toId, long time, byte[] data)
 	{
 		this.udpId = udpId;
 		this.type = type;
@@ -38,7 +38,7 @@ public class UdpMsg
 	}
 
 	//声明确认包时调用
-	public UdpMsg(int udpId, byte type)
+	public UdpMsg(String udpId, byte type)
 	{
 		this.udpId = udpId;
 		this.type = type;
@@ -53,7 +53,7 @@ public class UdpMsg
 			DataInputStream dins = new DataInputStream(bins);
 
 			this.totalLength = dins.readInt();
-			this.udpId = dins.readInt();
+			this.udpId = dins.readUTF();
 			this.type = dins.readByte();
 
 			if (type == REQUEST)
@@ -75,7 +75,7 @@ public class UdpMsg
 			ByteArrayOutputStream bous = new ByteArrayOutputStream();
 			DataOutputStream dous = new DataOutputStream(bous);
 			dous.writeInt(totalLength);
-			dous.writeInt(udpId);
+			dous.writeUTF(udpId);
 			dous.writeByte(type);
 			if (type == REQUEST)
 			{
@@ -92,12 +92,12 @@ public class UdpMsg
 		return null;
 	}
 
-	public int getUdpId()
+	public String getUdpId()
 	{
 		return udpId;
 	}
 
-	public void setUdpId(int udpId)
+	public void setUdpId(String udpId)
 	{
 		this.udpId = udpId;
 	}
