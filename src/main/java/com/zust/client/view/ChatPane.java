@@ -127,7 +127,6 @@ public class ChatPane {
 			}
 		}
 
-
 	}
 	public void receiveMsg(String message,Integer toId)
 	{

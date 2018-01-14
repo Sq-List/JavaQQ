@@ -8,10 +8,7 @@ import com.zust.common.tool.DesUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -50,19 +47,18 @@ class ChatPanel extends JPanel {
         JPanel jp1 = new JPanel();
         editTextArea = new JTextArea(3, 6);//new一个多行输入框，指定 行数和列数分别为3,6
         editTextArea.setPreferredSize(new Dimension(320, 150));
+        editTextArea.registerKeyboardAction(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				sendMessage(fromId, toId);//发送数据
+				editTextArea.setText("");
+			}
+		}, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0, false), JComponent.WHEN_FOCUSED);
         JPanel jp2 = new JPanel(new FlowLayout());
         jp2.setPreferredSize(new Dimension(250, 50));
         JButton sendBtn = new JButton("发送");
-        editTextArea.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int k = e.getKeyCode();
-                if (k == e.VK_ENTER) {
-                    sendMessage(fromId, toId);//发送数据
-					editTextArea.setText("");
-                }
-            }
-        });
         sendBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
