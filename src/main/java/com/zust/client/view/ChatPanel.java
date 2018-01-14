@@ -46,7 +46,7 @@ class ChatPanel extends JPanel {
 
         JPanel jp1 = new JPanel();
         editTextArea = new JTextArea(3, 6);//new一个多行输入框，指定 行数和列数分别为3,6
-        editTextArea.setPreferredSize(new Dimension(320, 150));
+        editTextArea.setPreferredSize(new Dimension(420, 150));
         editTextArea.registerKeyboardAction(new ActionListener()
 		{
 			@Override
@@ -59,6 +59,8 @@ class ChatPanel extends JPanel {
         JPanel jp2 = new JPanel(new FlowLayout());
         jp2.setPreferredSize(new Dimension(250, 50));
         JButton sendBtn = new JButton("发送");
+        sendBtn.setBackground(new Color(193, 199, 215));
+        sendBtn.setForeground(Color.white);
         sendBtn.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -67,6 +69,8 @@ class ChatPanel extends JPanel {
             }
         });
         JButton closeBtn = new JButton("关闭");
+        closeBtn.setBackground(new Color(193, 199, 215));
+        closeBtn.setForeground(Color.white);
         Font font = new Font("微软雅黑",Font.PLAIN,12);
         sendBtn.setFont(font);
         closeBtn.setFont(font);

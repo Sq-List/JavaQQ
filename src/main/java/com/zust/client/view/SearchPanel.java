@@ -36,6 +36,9 @@ public class SearchPanel extends JFrame {
 		label2 = new JLabel();
 		textField = new JTextField();
 		button1 = new JButton("搜索");
+		button1.setBackground(new Color(193, 199, 215));
+		button1.setForeground(Color.white);
+		button1.setBorder(BorderFactory.createLineBorder(Color.white));
 		jPanel = new JPanel();
 		jPanel1 = new JPanel();
 		jPanel2 = new JPanel();

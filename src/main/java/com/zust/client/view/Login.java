@@ -100,6 +100,7 @@ public class Login extends JFrame {
         b1.setFont(font);
         b1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         b1.setBounds(170, 230, 60, 20);
+        b1.setBackground(Color.white);
         // 给按钮添加事件
         b1.addActionListener(new ActionListener() {
 
