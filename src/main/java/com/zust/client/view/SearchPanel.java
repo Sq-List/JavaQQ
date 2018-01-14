@@ -34,13 +34,8 @@ public class SearchPanel extends JFrame {
 		setTitle("好友查询");
 		label1 = new JLabel("搜索用户名或ID:");
 		label2 = new JLabel();
-		label3 = new JLabel();
-		label4 = new JLabel("昵称");
-		label5 = new JLabel("123456");
-		label6 = new JLabel();
 		textField = new JTextField();
 		button1 = new JButton("搜索");
-		button2 = new JButton("添加");
 		jPanel = new JPanel();
 		jPanel1 = new JPanel();
 		jPanel2 = new JPanel();
@@ -50,13 +45,6 @@ public class SearchPanel extends JFrame {
 		button1.setBounds(320, 16, 60, 26);
 		label2.setBounds(0,60,500,1);
 		label2.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.darkGray), BorderFactory.createEmptyBorder(1,1,1,1)));
-		label3.setBounds(40, 17, 40, 40);
-		label3.setIcon(new ImageIcon(PicturePath.getPicturePath("/image/1.png")));
-		label4.setBounds(130, 23, 100, 30);
-		label5.setBounds(230, 23, 100, 30);
-		button2.setBounds(350, 25, 60, 26);
-		label6.setBounds(0,70,500,1);
-		label6.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.lightGray), BorderFactory.createEmptyBorder(1,1,1,1)));
 
 		button1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -79,11 +67,6 @@ public class SearchPanel extends JFrame {
 
 		jPanel.setLayout(null);
 		jPanel.setPreferredSize(new Dimension(400,100));
-		jPanel.add(label3);
-		jPanel.add(label4);
-		jPanel.add(label5);
-		jPanel.add(button2);
-		jPanel.add(label6);
 		listScroller = new JScrollPane(jPanel);
 		listScroller.setBounds(0, 60, 500, 340);
 

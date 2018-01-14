@@ -80,7 +80,6 @@ class ChatPanel extends JPanel {
                     System.out.println("there is no friend on the chatPane!");
                     ManagerPanel.delete("chatPanel");
                     ChatPane.frame.dispose();
-
                 }
             }
         });
