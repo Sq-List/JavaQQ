@@ -37,7 +37,7 @@ public class Main extends JFrame
 		setTitle("FakeQQ");
 		labelpic = new JLabel();
 		label2 = new JLabel();
-		label3 = new JLabel("用户昵称哈哈哈");
+		label3 = new JLabel(ManagerInfo.getUser().getUserName());
 		label4 = new JLabel();
 		button1 = new JButton("搜索好友");
 		button2 = new JButton("添加好友");
@@ -46,7 +46,7 @@ public class Main extends JFrame
 		this.setLayout(null);
 		labelpic.setBounds(50,50,70,70);
 		labelpic.setBorder(BorderFactory.createLineBorder(Color.black));
-		ImageIcon imageIcon = new ImageIcon(PicturePath.getPicturePath("/image/3.png"));
+		ImageIcon imageIcon = new ImageIcon(PicturePath.getPicturePath(ManagerInfo.getUser().getAvatarSrc()));
 		imageIcon.setImage(imageIcon.getImage().getScaledInstance(70 ,70, Image.SCALE_DEFAULT));
 		labelpic.setIcon(imageIcon);
 		label2.setBounds(0,150,400,2);
