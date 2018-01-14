@@ -145,7 +145,6 @@ public class ClientController implements Runnable
 			ManagerPanel.add("chatPanel", chatPanel);
 			chatPanel.receiveMsg(chatBean.getMessage(),dataFormat.getFromId());
 		}else {
-			chatPanel.addOnlineFriend(user);
 			chatPanel.receiveMsg(chatBean.getMessage(),dataFormat.getFromId());
 		}
 	}

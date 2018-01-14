@@ -1,5 +1,6 @@
 package com.zust.client.view;
 
+import com.zust.client.manager.ManagerInfo;
 import com.zust.client.manager.ManagerPanel;
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.User;
@@ -106,6 +107,8 @@ public class ChatPane {
 	public void receiveMsg(String message,Integer toId)
 	{
 
+		int count = 0;
+
 		for(int i=0;i<tp.getTabCount();i++){
 			if(String.valueOf(toId).equals(tp.getTabComponentAt(i).getName())){
 				//聊天面板添加聊天信息：
@@ -113,7 +116,18 @@ public class ChatPane {
 				chatPanel.showMsg(message);
 				SingleTabPanel singleTabPanel=(SingleTabPanel)tp.getTabComponentAt(i);
 				singleTabPanel.changeMsgNum("add");
+				count++;
+				break;
 			}
+		}
+
+		if(count == 0){
+			addOnlineFriend(ManagerInfo.getUserMap().get(toId));
+			//聊天面板添加聊天信息：
+			ChatPanel chatPanel=(ChatPanel)tp.getComponentAt(tp.getTabCount());
+			chatPanel.showMsg(message);
+			SingleTabPanel singleTabPanel=(SingleTabPanel)tp.getTabComponentAt(tp.getTabCount());
+			singleTabPanel.changeMsgNum("add");
 		}
 
 	}
