@@ -4,6 +4,7 @@ import com.zust.client.UDP.ClientUDP;
 import com.zust.client.manager.ManagerPanel;
 import com.zust.common.bean.ChatBean;
 import com.zust.common.bean.DataFormat;
+import com.zust.common.tool.DesUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -102,6 +103,7 @@ class ChatPanel extends JPanel {
             showPanel.append("\n"+userName+"  "+date+":\r\n");
             showPanel.append("          "+editTextArea.getText()+"\r\n");
             String message=editTextArea.getText();
+            message = DesUtil.encrypt(message);
             ChatBean chatBean=new ChatBean();
             chatBean.setMessage(message);
             DataFormat dataFormat = new DataFormat(fromId, toId, DataFormat.MESSAGE, chatBean, System.currentTimeMillis());
@@ -112,6 +114,8 @@ class ChatPanel extends JPanel {
         {
             showPanel.setText("");
             showPanel.append(err+"\n");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     public  void showMsg(String msg){

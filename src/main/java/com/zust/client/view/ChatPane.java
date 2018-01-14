@@ -4,6 +4,7 @@ import com.zust.client.manager.ManagerInfo;
 import com.zust.client.manager.ManagerPanel;
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.User;
+import com.zust.common.tool.DesUtil;
 import com.zust.common.tool.PicturePath;
 
 import javax.swing.*;
@@ -126,6 +127,12 @@ public class ChatPane {
 	{
 
 		int count = 0;
+
+		try {
+			message = DesUtil.decrypt(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		for(int i=0;i<tp.getTabCount();i++){
 			if(String.valueOf(toId).equals(tp.getTabComponentAt(i).getName())){
