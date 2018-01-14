@@ -39,7 +39,7 @@ class ChatPanel extends JPanel {
     public void createChatPanel() {
         setLayout(new GridLayout(2, 1));
         showPanel = new JTextArea();
-        JScrollPane scroll = new JScrollPane(showPanel);
+		JScrollPane scroll = new JScrollPane(showPanel);
         showPanel.setEditable(false);
         showPanel.setForeground(Color.BLUE);
 //        showPanel.setBorder(BorderFactory.createLineBorder(Color.red));
@@ -102,6 +102,7 @@ class ChatPanel extends JPanel {
             String date = df.format(new Date());
             showPanel.append("\n"+userName+"  "+date+":\r\n");
             showPanel.append("          "+editTextArea.getText()+"\r\n");
+			showPanel.setCaretPosition(showPanel.getText().length());
             String message=editTextArea.getText();
             message = DesUtil.encrypt(message);
             ChatBean chatBean=new ChatBean();
@@ -125,6 +126,7 @@ class ChatPanel extends JPanel {
             String date = df.format(new Date());
             showPanel.append("\n"+toUserName+" "+date+"：\n");
             showPanel.append("         "+msg);
+			showPanel.setCaretPosition(showPanel.getText().length());
         }
 
     }
