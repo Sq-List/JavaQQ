@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.net.SocketException;
 
 public class Login extends JFrame {
 //    private static final long serialVersionUID = -6788045638380819221L;
@@ -108,7 +109,7 @@ public class Login extends JFrame {
                     String psw = new String(ulPasswd.getPassword());
 
                     User user = new User();
-                    user.setUserName(username);
+                    user.setLoginName(username);
                     user.setPassword(psw);
 
                     LoginBean loginBean = new LoginBean();
@@ -120,7 +121,6 @@ public class Login extends JFrame {
                     dataFormat.setData(loginBean);
 
                     try {
-                        new ClientUDP();
                         ClientUDP.sendUdpMsg(dataFormat);
                     } catch (IOException e1) {
                         e1.printStackTrace();
@@ -160,7 +160,15 @@ public class Login extends JFrame {
 
 
     public static void main(String[] args) {
-        Login login = new Login();
+		try
+		{
+			new ClientUDP();
+		}
+		catch (SocketException e)
+		{
+			e.printStackTrace();
+		}
+		Login login = new Login();
         //添加登陆面板
         ManagerPanel.add("loginPanel", login);
     }

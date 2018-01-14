@@ -1,6 +1,6 @@
 package com.zust.server.UDP;
 
-import com.google.gson.Gson;
+
 import com.zust.common.bean.DataFormat;
 import com.zust.common.bean.UdpMsg;
 import com.zust.server.controller.ServerController;
@@ -44,8 +44,12 @@ public class ServerUDP
 		byte[] buffer = udpMsg.toByte();
 
 		//发送数据包给目标对象
-		DatagramPacket dp = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(userIpMap.get(udpMsg.getToId())), 2223);
-		dSender.send(dp);
+		InetAddress toAddress = InetAddress.getByName(userIpMap.get(udpMsg.getToId()));
+		if (toAddress != null)
+		{
+			DatagramPacket dp = new DatagramPacket(buffer, buffer.length, toAddress, 2223);
+			dSender.send(dp);
+		}
 
 		//将数据包放入消息队列
 		udpMsgMap.put(udpMsg.getUdpId(), udpMsg);
@@ -198,7 +202,10 @@ public class ServerUDP
 	{
 		synchronized (userIpMap)
 		{
-			userIpMap.remove(new Integer(userId));
+			if (userIpMap.get(userId) != null)
+			{
+				userIpMap.remove(userId);
+			}
 		}
 	}
 

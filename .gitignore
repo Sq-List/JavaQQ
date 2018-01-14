@@ -5,6 +5,7 @@ bin/
 .classpath
 .project
 .settings
+jdbc.properties
 
 # Windows:
 Thumbs.db
