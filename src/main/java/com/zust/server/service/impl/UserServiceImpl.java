@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService
 				BeanUtils.copyProperties(t, user);
 				userMap.put(user.getId(), user);
 			}
-			loginBean.setFriendMap(userMap);
+			respLoginBean.setFriendMap(userMap);
 		}
 		//错误
 		else

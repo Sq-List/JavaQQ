@@ -49,11 +49,11 @@ public class ServerUDP
 		{
 			DatagramPacket dp = new DatagramPacket(buffer, buffer.length, toAddress, 2223);
 			dSender.send(dp);
-		}
 
-		//将数据包放入消息队列
-		udpMsgMap.put(udpMsg.getUdpId(), udpMsg);
-		System.out.println("发送端-已发送req:" + udpMsg.getUdpId() + "的请求");
+			//将数据包放入消息队列
+			udpMsgMap.put(udpMsg.getUdpId(), udpMsg);
+			System.out.println("发送端-已发送req:" + udpMsg.getUdpId() + "的请求");
+		}
 
 		if (oos != null)
 		{
@@ -107,7 +107,7 @@ public class ServerUDP
 			}
 
 			long cTime = System.currentTimeMillis();
-			if((cTime - msg.getTime()) > 3000 && msg.getCount() < 3)
+			if((cTime - msg.getTime()) > 3000 && msg.getCount() < 5)
 			{
 				byte[] buffer = msg.toByte();
 				try

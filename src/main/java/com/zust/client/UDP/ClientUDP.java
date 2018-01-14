@@ -15,7 +15,7 @@ import java.util.Set;
 
 public class ClientUDP
 {
-	private static final String serverIp = "192.168.1.83";
+	private static final String serverIp = "172.16.54.185";
 	private static final Map<Integer, UdpMsg> udpMsgMap = new HashMap<Integer, UdpMsg>();
 	private static int udpId = 1;
 	//接收端的DatagramSocket
@@ -150,6 +150,7 @@ public class ClientUDP
 				ds.receive(recvPacket);
 				UdpMsg udpMsg = new UdpMsg(recvPacket.getData());
 
+				System.out.println("收到消息");
 				//数据包为确认类型
 				if (udpMsg.getType() == UdpMsg.CONFIRM)
 				{
