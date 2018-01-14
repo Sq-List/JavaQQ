@@ -45,24 +45,30 @@ public class Main extends JFrame
 		label4 = new JLabel();
 		button1 = new JButton("个人信息");
 		button2 = new JButton("添加好友");
+		button1.setForeground(Color.white);
+		button1.setBackground(new Color(193, 199, 215));
+		button1.setBorder(BorderFactory.createLineBorder(Color.white));
+		button2.setForeground(Color.white);
+		button2.setBackground(new Color(193, 199, 215));
+		button2.setBorder(BorderFactory.createLineBorder(Color.white));
 		label5 = new JLabel();
 		label6 = new JLabel("made by niceteam",JLabel.CENTER);
 		this.setLayout(null);
 		labelpic.setBounds(50,50,70,70);
-		labelpic.setBorder(BorderFactory.createLineBorder(Color.black));
+		//labelpic.setBorder(BorderFactory.createLineBorder(Color.black));
 		ImageIcon imageIcon = new ImageIcon(PicturePath.getPicturePath(ManagerInfo.getUser().getAvatarSrc()));
 		imageIcon.setImage(imageIcon.getImage().getScaledInstance(70 ,70, Image.SCALE_DEFAULT));
 		labelpic.setIcon(imageIcon);
 		label2.setBounds(0,150,400,2);
-		label2.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.lightGray), BorderFactory.createEmptyBorder(1,1,1,1)));
-		label3.setBounds(170, 70, 150, 30);
+		//label2.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.lightGray), BorderFactory.createEmptyBorder(1,1,1,1)));
+		label3.setBounds(170,50, 150, 30);
 		label3.setFont(new Font("宋体", 1, 18));
 		label4.setBounds(0,200,400,2);
-		label4.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.lightGray), BorderFactory.createEmptyBorder(1,1,1,1)));
-		button1.setBounds(70, 160, 95, 30);
-		button2.setBounds(235, 160, 95, 30);
+		//label4.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.lightGray), BorderFactory.createEmptyBorder(1,1,1,1)));
+		button1.setBounds(150, 100, 95, 30);
+		button2.setBounds(270, 100, 95, 30);
 		label5.setBounds(0,630,400,2);
-		label5.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.lightGray), BorderFactory.createEmptyBorder(1,1,1,1)));
+		//label5.setBorder(BorderFactory.createCompoundBorder(new LineBorder(Color.lightGray), BorderFactory.createEmptyBorder(1,1,1,1)));
 		label6.setBounds(130,630,140,40);
 
 		button1.addActionListener(new ActionListener() {
@@ -195,6 +201,7 @@ public class Main extends JFrame
 
 // setBackground(Color.blue);
 		this.getContentPane().setBackground(Color.white);
+		//this.getContentPane().setBackground(new Color(128, 159, 255));
 		this.getContentPane().setVisible(true);
 
 		add(listScroller);
