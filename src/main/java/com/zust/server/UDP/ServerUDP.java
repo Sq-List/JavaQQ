@@ -168,19 +168,20 @@ public class ServerUDP
 				//收到请求包，首先发送确认包
 				else
 				{
+					reviceUdpMsg.put(udpMsg.getUdpId(), true);
+					UdpMsg resp = new UdpMsg(udpMsg.getUdpId(), UdpMsg.CONFIRM);
+
+					//不管三七二十一先发确认包
+					byte[] data = resp.toByte();
+					logger.info("接收端-已收到resp:" + resp.getUdpId() + "来自" + inetAddress.getHostAddress() + "的请求");
+					//声明一个新的端口的Socket
+					DatagramSocket dSender = new DatagramSocket();
+					//获取发送方的InetAddress
+					DatagramPacket dp = new DatagramPacket(data, data.length, inetAddress, 2223);
+					dSender.send(dp);
+
 					if (reviceUdpMsg.get(udpMsg.getUdpId()) == null)
 					{
-						reviceUdpMsg.put(udpMsg.getUdpId(), true);
-						UdpMsg resp = new UdpMsg(udpMsg.getUdpId(), UdpMsg.CONFIRM);
-
-						byte[] data = resp.toByte();
-						logger.info("接收端-已收到resp:" + resp.getUdpId() + "来自" + inetAddress.getHostAddress() + "的请求");
-						//声明一个新的端口的Socket
-						DatagramSocket dSender = new DatagramSocket();
-						//获取发送方的InetAddress
-						DatagramPacket dp = new DatagramPacket(data, data.length, inetAddress, 2223);
-						dSender.send(dp);
-
 						logger.info("接收端-已发送resp:" + resp.getUdpId() + "的应答");
 
 						//交给其他线程处理数据库

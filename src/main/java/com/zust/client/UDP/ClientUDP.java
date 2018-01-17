@@ -16,7 +16,7 @@ public class ClientUDP
 {
 	private static final Logger logger = LoggerFactory.getLogger(ClientUDP.class);
 
-	private static final String serverIp = "172.16.54.184";
+	private static final String serverIp = "192.168.1.83";
 	private static final Map<String, UdpMsg> udpMsgMap = new HashMap<String, UdpMsg>();
 	private final Map<String, Boolean> reviceUdpMsg = new HashMap<>();
 	//接收端的DatagramSocket
@@ -165,18 +165,19 @@ public class ClientUDP
 				//收到请求包，首先发送确认包
 				else
 				{
+					reviceUdpMsg.put(udpMsg.getUdpId(), true);
+					UdpMsg resp = new UdpMsg(udpMsg.getUdpId(), UdpMsg.CONFIRM);
+
+					//不管三七二十一先发确认包
+					byte[] data = resp.toByte();
+					logger.info("接收端-已收到resp:" + resp.getUdpId() + "的请求");
+					//声明一个新的端口的Socket
+					DatagramSocket dSender = new DatagramSocket();
+					DatagramPacket dp = new DatagramPacket(data, data.length, serverAddr);
+					dSender.send(dp);
+
 					if (reviceUdpMsg.get(udpMsg.getUdpId()) == null)
 					{
-						reviceUdpMsg.put(udpMsg.getUdpId(), true);
-						UdpMsg resp = new UdpMsg(udpMsg.getUdpId(), UdpMsg.CONFIRM);
-
-						byte[] data = resp.toByte();
-						logger.info("接收端-已收到resp:" + resp.getUdpId() + "的请求");
-						//声明一个新的端口的Socket
-						DatagramSocket dSender = new DatagramSocket();
-						DatagramPacket dp = new DatagramPacket(data, data.length, serverAddr);
-						dSender.send(dp);
-
 						logger.info("接收端-已发送resp:" + resp.getUdpId() + "应答");
 
 						//交给其他线程处理UI
