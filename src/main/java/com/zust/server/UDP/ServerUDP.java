@@ -168,7 +168,6 @@ public class ServerUDP
 				//收到请求包，首先发送确认包
 				else
 				{
-					reviceUdpMsg.put(udpMsg.getUdpId(), true);
 					UdpMsg resp = new UdpMsg(udpMsg.getUdpId(), UdpMsg.CONFIRM);
 
 					//不管三七二十一先发确认包
@@ -179,11 +178,12 @@ public class ServerUDP
 					//获取发送方的InetAddress
 					DatagramPacket dp = new DatagramPacket(data, data.length, inetAddress, 2223);
 					dSender.send(dp);
+					logger.info("接收端-已发送resp:" + resp.getUdpId() + "的应答");
 
+					logger.info(reviceUdpMsg.get(udpMsg.getUdpId()) + "");
 					if (reviceUdpMsg.get(udpMsg.getUdpId()) == null)
 					{
-						logger.info("接收端-已发送resp:" + resp.getUdpId() + "的应答");
-
+						reviceUdpMsg.put(udpMsg.getUdpId(), true);
 						//交给其他线程处理数据库
 						new Thread(new ServerController(inetAddress, udpMsg.getData())).start();
 					}

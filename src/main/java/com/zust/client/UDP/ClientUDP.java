@@ -165,7 +165,6 @@ public class ClientUDP
 				//收到请求包，首先发送确认包
 				else
 				{
-					reviceUdpMsg.put(udpMsg.getUdpId(), true);
 					UdpMsg resp = new UdpMsg(udpMsg.getUdpId(), UdpMsg.CONFIRM);
 
 					//不管三七二十一先发确认包
@@ -175,11 +174,11 @@ public class ClientUDP
 					DatagramSocket dSender = new DatagramSocket();
 					DatagramPacket dp = new DatagramPacket(data, data.length, serverAddr);
 					dSender.send(dp);
+					logger.info("接收端-已发送resp:" + resp.getUdpId() + "应答");
 
 					if (reviceUdpMsg.get(udpMsg.getUdpId()) == null)
 					{
-						logger.info("接收端-已发送resp:" + resp.getUdpId() + "应答");
-
+						reviceUdpMsg.put(udpMsg.getUdpId(), true);
 						//交给其他线程处理UI
 						new Thread(new ClientController(udpMsg.getData())).start();
 					}
