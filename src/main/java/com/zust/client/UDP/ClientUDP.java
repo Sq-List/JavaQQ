@@ -16,7 +16,7 @@ public class ClientUDP
 {
 	private static final Logger logger = LoggerFactory.getLogger(ClientUDP.class);
 
-	private static final String serverIp = "192.168.1.83";
+	private static final String serverIp = "172.16.54.187";
 	private static final Map<String, UdpMsg> udpMsgMap = new HashMap<String, UdpMsg>();
 	private final Map<String, Boolean> reviceUdpMsg = new HashMap<>();
 	//接收端的DatagramSocket
