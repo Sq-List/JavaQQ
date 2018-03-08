@@ -8,6 +8,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import java.net.SocketException;
 
+// 服务器开启
 public class Server
 {
 	public static void main(String[] agrs)
